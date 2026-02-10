@@ -25,7 +25,7 @@ export default async function LandingPage() {
 
           <div>
             <Link
-              href='/signin'
+              href='/sign-in'
               className='bg-slate-800 px-5 py-2 rounded-lg text-white text-sm hover:bg-slate-900 duration-200 transition'
             >
               Login

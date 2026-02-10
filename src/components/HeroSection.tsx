@@ -18,7 +18,7 @@ export default function HeroSection() {
           </p>
 
           <button className='mt-8 bg-slate-900 text-slate-50 px-6 py-2 rounded-lg font-medium hover:bg-slate-800 hover:-translate-y-px shadow-lg transition'>
-            <Link href='/register'>Request access</Link>
+            <Link href='/sign-up'>Request access</Link>
           </button>
         </div>
         <div className='absolute left-8 top-20 hidden md:block'></div>

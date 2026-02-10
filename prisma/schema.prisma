@@ -14,6 +14,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OrganizationType {
+  INDIVIDUAL
+  COMPANY
+}
+
+enum OrganizationRole {
+  MANAGER
+  SUPERVISOR
+  ACCOUNTANT
+}
+
+enum MessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
 enum TicketStatus {
   NEW
   IN_PROGRESS
@@ -26,31 +42,170 @@ enum TicketSource {
   EMAIL
 }
 
-model Ticket {
-  id String @id @default(uuid())
+enum MessageStatus {
+  SENT
+  DELIVERED
+  READ
+  FAILED
+}
 
-  source  TicketSource
-  subject String?
-  status  TicketStatus @default(NEW)
-  dueDate DateTime?
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model WhatsAppNumber {
+  id             String @id @default(uuid())
+  organizationId String
+  phoneNumber    String
+  providerId     String
+
+  isActive Boolean @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  organization Organization @relation(fields: [organizationId], references: [id])
+  tickets      Ticket[]
+
+  @@unique([phoneNumber])
+  @@map("whatsapp_numbers")
+}
+
+model Contact {
+  id             String @id @default(uuid())
+  organizationId String
+
+  phone String
+  name  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  tickets      Ticket[]
+
+  @@unique([organizationId, phone])
+  @@map("contacts")
+}
+
+model Ticket {
+  id String @id @default(uuid())
+
+  organizationId   String
+  contactId        String
+  whatsappNumberId String?
+
+  source  TicketSource @default(WHATSAPP)
+  subject String?
+  status  TicketStatus @default(NEW)
+
+  assignedToId  String?
+  lastMessageAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  priority      TicketPriority @default(MEDIUM)
+  internalNotes String?
+
+  organization   Organization    @relation(fields: [organizationId], references: [id])
+  contact        Contact         @relation(fields: [contactId], references: [id])
+  assignedTo     User?           @relation(fields: [assignedToId], references: [id])
+  whatsappNumber WhatsAppNumber? @relation(fields: [whatsappNumberId], references: [id])
+
+  messages   Message[]
+  ticketTags TicketTag[]
+
   @@index([status])
+  @@index([organizationId])
   @@map("tickets")
 }
 
+model Tag {
+  id   String @id @default(uuid())
+  name String
+
+  tickets TicketTag[]
+}
+
+model TicketTag {
+  id       String @id @default(uuid())
+  ticketId String
+  tagId    String
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([ticketId, tagId])
+}
+
+model Message {
+  id String @id @default(uuid())
+
+  ticketId  String
+  direction MessageDirection
+
+  body         String
+  externalId   String?
+  sentByUserId String?
+
+  createdAt DateTime @default(now())
+
+  ticket Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sentBy User?         @relation(fields: [sentByUserId], references: [id])
+  status MessageStatus @default(SENT)
+
+  @@index([ticketId])
+  @@map("messages")
+}
+
+model Organization {
+  id   String           @id @default(uuid())
+  name String
+  type OrganizationType @default(COMPANY)
+
+  cui    String?
+  regCom String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users    OrganizationUser[]
+  contacts Contact[]
+  tickets  Ticket[]
+  numbers  WhatsAppNumber[]
+
+  @@map("organizations")
+}
+
+model OrganizationUser {
+  id             String           @id @default(uuid())
+  userId         String
+  organizationId String
+  role           OrganizationRole @default(ACCOUNTANT)
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, organizationId])
+  @@map("organization_users")
+}
+
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  id                String             @id
+  name              String
+  email             String
+  emailVerified     Boolean            @default(false)
+  image             String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  sessions          Session[]
+  accounts          Account[]
+  tickets           Ticket[]
+  messages          Message[]
+  organizationUsers OrganizationUser[]
 
   @@unique([email])
   @@map("user")
