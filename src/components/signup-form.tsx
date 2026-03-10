@@ -1,5 +1,12 @@
 'use client';
-import z from 'zod';
+
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import { signUpSchema, type SignUpFormValues } from '@/lib/validators/sign-up';
+import { signUpAction } from '@/app/actions/sign-up';
+
 import {
   Form,
   FormControl,
@@ -8,69 +15,40 @@ import {
   FormLabel,
   FormMessage,
 } from './ui/form';
+
 import { Input } from './ui/input';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from './ui/button';
-import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { useState } from 'react';
 import { Spinner } from './ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
-const signUpFormSchema = z
-  .object({
-    email: z.email({ message: 'Invalid email adress' }),
-    password: z.string().min(8, { message: 'Password required' }),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords dont`t match',
-    path: ['confirmPassword'],
-  });
-
-type SignUpFormValues = z.infer<typeof signUpFormSchema>;
-
 export default function SignUpForm() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignUpFormValues>({
-    resolver: zodResolver(signUpFormSchema),
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      organizationName: '',
     },
   });
 
   const onSubmit = async (values: SignUpFormValues) => {
-    try {
-      setIsLoading(true);
-      await authClient.signUp.email(
-        {
-          name: values.email,
-          email: values.email,
-          password: values.password,
+    setIsLoading(true);
 
-          callbackURL: '/dashboard',
-        },
-        {
-          onSuccess: () => {
-            router.push('/');
-          },
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-        },
-      );
-    } catch (error) {
-      console.error({ error });
-    } finally {
+    const result = await signUpAction(values);
+
+    if (result?.error) {
+      form.setError('root', {
+        message: result.error,
+      });
       setIsLoading(false);
+      return;
     }
   };
+
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader>
@@ -84,17 +62,46 @@ export default function SignUpForm() {
           >
             <FormField
               control={form.control}
-              name='email'
+              name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='enter your email' {...field} />
+                    <Input placeholder='Your name' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={form.control}
+              name='organizationName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Organization</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Organization name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Enter your email' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name='password'
@@ -102,30 +109,42 @@ export default function SignUpForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder='enter your password' {...field} />
+                    <Input
+                      type='password'
+                      {...field}
+                      placeholder='Enter your password'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name='confirmPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input placeholder='confirm your password' {...field} />
+                    <Input
+                      type='password'
+                      {...field}
+                      placeholder='Confirm your password'
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button
-              type='submit'
-              className='cursor-pointer'
-              disabled={isLoading}
-            >
+
+            {form.formState.errors.root && (
+              <p className='text-sm text-red-500'>
+                {form.formState.errors.root.message}
+              </p>
+            )}
+
+            <Button type='submit' disabled={isLoading}>
               {isLoading ? <Spinner className='size-6' /> : 'Sign Up'}
             </Button>
           </form>

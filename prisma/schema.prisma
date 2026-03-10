@@ -20,9 +20,9 @@ enum OrganizationType {
 }
 
 enum OrganizationRole {
-  MANAGER
-  SUPERVISOR
-  ACCOUNTANT
+  OWNER
+  ADMIN
+  AGENT
 }
 
 enum MessageDirection {
@@ -40,6 +40,8 @@ enum TicketStatus {
 enum TicketSource {
   WHATSAPP
   EMAIL
+  WEB
+  PHONE
 }
 
 enum MessageStatus {
@@ -73,11 +75,29 @@ model WhatsAppNumber {
   @@map("whatsapp_numbers")
 }
 
+model EmailAddress {
+  id             String   @id @default(uuid())
+  organizationId String
+  email          String
+  provider       String
+  config         Json
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  tickets      Ticket[]
+
+  @@unique([email])
+  @@map("email_addresses")
+}
+
 model Contact {
   id             String @id @default(uuid())
   organizationId String
 
-  phone String
+  phone String?
+  email String?
   name  String?
 
   createdAt DateTime @default(now())
@@ -87,47 +107,51 @@ model Contact {
   tickets      Ticket[]
 
   @@unique([organizationId, phone])
+  @@unique([organizationId, email])
   @@map("contacts")
 }
 
 model Ticket {
-  id String @id @default(uuid())
-
+  id               String         @id @default(uuid())
   organizationId   String
   contactId        String
   whatsappNumberId String?
-
-  source  TicketSource @default(WHATSAPP)
-  subject String?
-  status  TicketStatus @default(NEW)
-
-  assignedToId  String?
-  lastMessageAt DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  priority      TicketPriority @default(MEDIUM)
-  internalNotes String?
+  emailAddressId   String?
+  source           TicketSource   @default(WHATSAPP)
+  subject          String?
+  status           TicketStatus   @default(NEW)
+  priority         TicketPriority @default(MEDIUM)
+  assignedToId     String?
+  lastMessageAt    DateTime?
+  internalNotes    String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 
   organization   Organization    @relation(fields: [organizationId], references: [id])
   contact        Contact         @relation(fields: [contactId], references: [id])
   assignedTo     User?           @relation(fields: [assignedToId], references: [id])
   whatsappNumber WhatsAppNumber? @relation(fields: [whatsappNumberId], references: [id])
-
-  messages   Message[]
-  ticketTags TicketTag[]
+  emailAddress   EmailAddress?   @relation(fields: [emailAddressId], references: [id])
+  messages       Message[]
+  ticketTags     TicketTag[]
 
   @@index([status])
   @@index([organizationId])
+  @@index([lastMessageAt])
   @@map("tickets")
 }
 
 model Tag {
-  id   String @id @default(uuid())
-  name String
+  id             String  @id @default(uuid())
+  organizationId String
+  name           String
+  color          String?
 
-  tickets TicketTag[]
+  organization Organization @relation(fields: [organizationId], references: [id])
+  tickets      TicketTag[]
+
+  @@unique([organizationId, name])
+  @@map("tags")
 }
 
 model TicketTag {
@@ -142,23 +166,38 @@ model TicketTag {
 }
 
 model Message {
-  id String @id @default(uuid())
-
-  ticketId  String
-  direction MessageDirection
-
+  id           String           @id @default(uuid())
+  ticketId     String
+  direction    MessageDirection
   body         String
   externalId   String?
   sentByUserId String?
+  status       MessageStatus    @default(SENT)
+  metadata     Json?
+  createdAt    DateTime         @default(now())
 
-  createdAt DateTime @default(now())
-
-  ticket Ticket        @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  sentBy User?         @relation(fields: [sentByUserId], references: [id])
-  status MessageStatus @default(SENT)
+  ticket      Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sentBy      User?        @relation(fields: [sentByUserId], references: [id])
+  attachments Attachment[]
 
   @@index([ticketId])
+  @@index([externalId])
   @@map("messages")
+}
+
+model Attachment {
+  id        String @id @default(uuid())
+  messageId String
+
+  url       String
+  mimeType  String?
+  fileName  String?
+  fileSize  Int?
+  createdAt DateTime @default(now())
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
 }
 
 model Organization {
@@ -172,10 +211,12 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users    OrganizationUser[]
-  contacts Contact[]
-  tickets  Ticket[]
-  numbers  WhatsAppNumber[]
+  users          OrganizationUser[]
+  contacts       Contact[]
+  tickets        Ticket[]
+  numbers        WhatsAppNumber[]
+  emailAddresses EmailAddress[]
+  tags           Tag[]
 
   @@map("organizations")
 }
@@ -184,7 +225,7 @@ model OrganizationUser {
   id             String           @id @default(uuid())
   userId         String
   organizationId String
-  role           OrganizationRole @default(ACCOUNTANT)
+  role           OrganizationRole @default(ADMIN)
 
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)

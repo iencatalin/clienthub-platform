@@ -1,5 +1,5 @@
 'use client';
-import z from 'zod';
+
 import {
   Form,
   FormControl,
@@ -18,20 +18,15 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { Spinner } from './ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-
-const signInFormSchema = z.object({
-  email: z.email({ message: 'Invalid email adress' }),
-  password: z.string().min(8, { message: 'Password required' }),
-});
-
-type SignInFormValues = z.infer<typeof signInFormSchema>;
+import Link from 'next/link';
+import { signInSchema, type SignInFormValues } from '@/lib/validators/sign-in';
 
 export default function SignInForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<SignInFormValues>({
-    resolver: zodResolver(signInFormSchema),
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -45,8 +40,6 @@ export default function SignInForm() {
         {
           email: values.email,
           password: values.password,
-
-          callbackURL: '/',
         },
         {
           onSuccess: () => {
@@ -63,6 +56,7 @@ export default function SignInForm() {
       setIsLoading(false);
     }
   };
+
   return (
     <Card className='w-full max-w-sm'>
       <CardHeader>
@@ -70,7 +64,10 @@ export default function SignInForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className='flex flex-col gap-6'
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               control={form.control}
               name='email'
@@ -91,12 +88,22 @@ export default function SignInForm() {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder='enter your password' {...field} />
+                    <Input
+                      type='password'
+                      placeholder='enter your password'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <Link
+              href='/sign-up'
+              className='text-normal text-slate-600 hover:text-slate-700 hover:underline'
+            >
+              Don`t have an account? Sign Up
+            </Link>
             <Button
               type='submit'
               className='cursor-pointer'
