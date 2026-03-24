@@ -16,10 +16,9 @@ import {
   Users2,
 } from 'lucide-react';
 
-import { User } from './user';
-
 import { NavMain } from './nav-main';
 import { NavSecondary } from './nav-secondary';
+import { NavUser } from './nav-user';
 
 const data = {
   navMain: [
@@ -99,9 +98,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <User />
-            </SidebarMenuButton>
+            <NavUser />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
