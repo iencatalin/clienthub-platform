@@ -4,6 +4,7 @@ import { BellIcon, SearchIcon } from 'lucide-react';
 import { SidebarTrigger } from './ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { authClient } from '@/lib/auth-client';
+import { getGreeting } from '@/utils/get-greeting';
 
 export function DashboardHeader() {
   const { data: session } = authClient.useSession();
@@ -15,9 +16,11 @@ export function DashboardHeader() {
           orientation='vertical'
           className='mr-2 data-[orientation=vertical]:h-4 md:hidden block'
         />
-        <div className='flex items-center gap-1 text-sm'>
-          <h2>Welcome back,{session?.user.name} </h2>
-        </div>
+
+        <h2 className='text-xl font-bold'>
+          <span className='text-slate-500'>{getGreeting()}, </span>
+          {session?.user.name}
+        </h2>
       </div>
       <div className='ml-auto flex items-center gap-2 pr-8'>
         <div className=''>
