@@ -1,7 +1,15 @@
 import TicketForm from '@/components/ticket-form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { PlusSquare } from 'lucide-react';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -25,7 +33,20 @@ export default async function NewTickets() {
   return (
     <Card className='mt-10 p-4'>
       <CardHeader>
-        <CardTitle>New Ticket</CardTitle>
+        <div className='flex items-center gap-3 mb-4'>
+          <div className='bg-gray-300/20 rounded-md p-1'>
+            <PlusSquare className='size-8 text-purple-400' />
+          </div>
+          <div>
+            <CardTitle className='font-bold text-xl text-slate-950 leading-tight'>
+              New Ticket
+            </CardTitle>
+            <CardDescription className='text-slate-500 pt-1'>
+              Create a new ticket
+            </CardDescription>
+          </div>
+        </div>
+        <Separator />
       </CardHeader>
       <CardContent>
         <TicketForm contacts={contacts} />

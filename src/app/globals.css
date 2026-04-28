@@ -223,6 +223,25 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+
+  .bg-section {
+    padding: 80px 64px 72px;
+    background: linear-gradient(160deg, #fafafe 0%, #f4f3ff 50%, #faf9ff 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ac-line {
+    flex: 1;
+    height: 1px;
+    background: #c4c2f8;
+    max-width: 60px;
+  }
+  @media (max-width: 768px) {
+    .bg-section {
+      padding: 20px 20px 36px;
+    }
   }
 }

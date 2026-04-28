@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/command';
 import { Button } from './ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
-import { Check, ChevronsUpDown, Plus } from 'lucide-react';
+import { Check, ChevronDown, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -37,13 +37,13 @@ export function ContactCombobox({
         <Button
           variant='outline'
           role='combobox'
-          className='w-full justify-between'
+          className='w-full justify-between bg-slate-100/10'
         >
           {' '}
           {selected
             ? (selected.name ?? selected.email ?? selected.phone)
             : 'Select contact...'}{' '}
-          <ChevronsUpDown className='ml-2 size-4 shrink-0 opacity-50' />
+          <ChevronDown className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent>

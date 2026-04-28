@@ -17,10 +17,17 @@ import {
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/auth-client';
 import { ChevronsUpDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export function NavUser() {
   const { data: session } = authClient.useSession();
   const { isMobile } = useSidebar();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    router.push('/');
+  };
 
   return (
     <SidebarMenu>
@@ -66,7 +73,7 @@ export function NavUser() {
               <DropdownMenuItem>Notifications</DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Log out</DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}> Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
