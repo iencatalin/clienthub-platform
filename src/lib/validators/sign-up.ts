@@ -1,13 +1,23 @@
 import z from 'zod';
+import { passwordRules } from '../password-rules';
 
 export const signUpSchema = z
   .object({
     name: z.string().min(2, 'Name is required'),
     email: z.email(),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
+    password: z
+      .string()
+      .min(passwordRules.minLength, `Min ${passwordRules.minLength} characters`)
+      .regex(passwordRules.uppercase, 'One uppercase letter required')
+      .regex(passwordRules.lowercase, 'One lowercase letter required')
+      .regex(passwordRules.number, 'One number required')
+      .regex(passwordRules.special, 'One special character required'),
     confirmPassword: z
       .string()
-      .min(6, 'Confirm password must be at least 6 characters'),
+      .min(
+        passwordRules.minLength,
+        `Min ${passwordRules.minLength} characters`,
+      ),
     organizationName: z.string().min(2, 'Organization name is required'),
   })
   .refine((data) => data.password === data.confirmPassword, {

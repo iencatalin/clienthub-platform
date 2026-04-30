@@ -19,7 +19,10 @@ import {
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Spinner } from './ui/spinner';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Checkbox } from './ui/checkbox';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import PasswordStrength from './password-strength';
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,24 +53,30 @@ export default function SignUpForm() {
   };
 
   return (
-    <Card className='w-full max-w-sm'>
-      <CardHeader>
-        <CardTitle>Sign up</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col gap-6'
-          >
+    <div className='space-y-4'>
+      <h2 className='text-3xl font-bold'>Create your account</h2>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='flex flex-col gap-6 pt-8'
+        >
+          <div className='grid grid-cols-2 gap-4'>
             <FormField
               control={form.control}
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className='text-slate-700/90 text-sm'>
+                    Full Name
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder='Your name' {...field} />
+                    <Input
+                      type='text'
+                      className='bg-slate-100/80 ring-1 ring-slate-300/80'
+                      placeholder='Your name'
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,77 +88,128 @@ export default function SignUpForm() {
               name='organizationName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Organization</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Organization name' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Enter your email' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className='text-slate-700/90 text-sm'>
+                    Organization
+                  </FormLabel>
                   <FormControl>
                     <Input
-                      type='password'
+                      type='text'
+                      className='bg-slate-100/80 ring-1 ring-slate-300/80 w-full'
+                      placeholder='Organization name'
                       {...field}
-                      placeholder='Enter your password'
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+          </div>
 
-            <FormField
-              control={form.control}
-              name='confirmPassword'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      type='password'
-                      {...field}
-                      placeholder='Confirm your password'
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {form.formState.errors.root && (
-              <p className='text-sm text-red-500'>
-                {form.formState.errors.root.message}
-              </p>
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-slate-700/90 text-sm'>
+                  Email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type='email'
+                    className='bg-slate-100/80 ring-1 ring-slate-300/80'
+                    placeholder='Enter your email'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+                <small className='text-xs text-muted-foreground'>
+                  We`ll send a confirmation to this address
+                </small>
+              </FormItem>
             )}
+          />
 
-            <Button type='submit' disabled={isLoading}>
-              {isLoading ? <Spinner className='size-6' /> : 'Sign Up'}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-slate-700/90 text-sm'>
+                  Password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    {...field}
+                    className='bg-slate-100/80 ring-1 ring-slate-300/80'
+                    placeholder='Enter your password'
+                  />
+                </FormControl>
+                <PasswordStrength password={field.value} />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name='confirmPassword'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-slate-700/90 text-sm'>
+                  Confirm Password
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    type='password'
+                    {...field}
+                    className='bg-slate-100/80 ring-1 ring-slate-300/80'
+                    placeholder='Confirm your password'
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormItem className='flex items-center gap-2'>
+            <Checkbox
+              id='terms-checkbox'
+              name='terms-checkbox'
+              className='bg-slate-100/80 ring-1 ring-slate-300/80'
+            />
+            <FormLabel
+              htmlFor='terms-checkbox'
+              className='text-slate-700/90 text-sm flex items-center gap-1'
+            >
+              I agree to the Terms of Service and Privacy Policy
+            </FormLabel>
+          </FormItem>
+
+          {form.formState.errors.root && (
+            <p className='text-sm text-red-500'>
+              {form.formState.errors.root.message}
+            </p>
+          )}
+
+          <Button
+            className='cursor-pointer text-base bg-linear-to-r from-blue-600 to-purple-500 hover:bg-linear-to-r hover:from-blue-700 hover:to-purple-600 disabled:cursor-not-allowed disabled:opacity-50'
+            type='submit'
+            disabled={isLoading}
+          >
+            {isLoading ? <Spinner className='size-6' /> : 'Create Account'}
+          </Button>
+        </form>
+      </Form>
+      <div className='flex justify-center items-center gap-2 text-sm text-slate-600 pt-2'>
+        Already have an account?
+        <Link
+          href='/sign-in'
+          className='flex items-center gap-2 text-blue-600 font-semibold'
+        >
+          Sign in <ArrowRight className='size-4' />
+        </Link>
+      </div>
+    </div>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 
 import './globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   title: 'Revelio ClientHub',
@@ -20,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${jakarta.variable} antialiased`}>{children}</body>
+      <body className={`${jakarta.variable} antialiased`}>
+        <Toaster position='top-center' />
+        {children}
+      </body>
     </html>
   );
 }

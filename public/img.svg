@@ -1,0 +1,39 @@
+<svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      
+  <g opacity="0.12">
+    <circle cx="50" cy="50" r="2" fill="white"></circle><circle cx="90" cy="50" r="2" fill="white"></circle><circle cx="130" cy="50" r="2" fill="white"></circle><circle cx="170" cy="50" r="2" fill="white"></circle><circle cx="210" cy="50" r="2" fill="white"></circle><circle cx="250" cy="50" r="2" fill="white"></circle>
+    <circle cx="50" cy="90" r="2" fill="white"></circle><circle cx="90" cy="90" r="2" fill="white"></circle><circle cx="130" cy="90" r="2" fill="white"></circle><circle cx="170" cy="90" r="2" fill="white"></circle><circle cx="210" cy="90" r="2" fill="white"></circle><circle cx="250" cy="90" r="2" fill="white"></circle>
+    <circle cx="50" cy="130" r="2" fill="white"></circle><circle cx="90" cy="130" r="2" fill="white"></circle><circle cx="130" cy="130" r="2" fill="white"></circle><circle cx="170" cy="130" r="2" fill="white"></circle><circle cx="210" cy="130" r="2" fill="white"></circle><circle cx="250" cy="130" r="2" fill="white"></circle>
+    <circle cx="50" cy="170" r="2" fill="white"></circle><circle cx="90" cy="170" r="2" fill="white"></circle><circle cx="130" cy="170" r="2" fill="white"></circle><circle cx="170" cy="170" r="2" fill="white"></circle><circle cx="210" cy="170" r="2" fill="white"></circle><circle cx="250" cy="170" r="2" fill="white"></circle>
+    <circle cx="50" cy="210" r="2" fill="white"></circle><circle cx="90" cy="210" r="2" fill="white"></circle><circle cx="130" cy="210" r="2" fill="white"></circle><circle cx="170" cy="210" r="2" fill="white"></circle><circle cx="210" cy="210" r="2" fill="white"></circle><circle cx="250" cy="210" r="2" fill="white"></circle>
+    <circle cx="50" cy="250" r="2" fill="white"></circle><circle cx="90" cy="250" r="2" fill="white"></circle><circle cx="130" cy="250" r="2" fill="white"></circle><circle cx="170" cy="250" r="2" fill="white"></circle><circle cx="210" cy="250" r="2" fill="white"></circle><circle cx="250" cy="250" r="2" fill="white"></circle>
+  </g>
+
+
+  <polygon points="150,40 230,87 230,180 150,227 70,180 70,87" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" fill="rgba(255,255,255,0.03)"></polygon>
+  <polygon points="150,72 202,101 202,160 150,189 98,160 98,101" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" fill="rgba(255,255,255,0.03)"></polygon>
+  <polygon points="150,104 174,118 174,146 150,160 126,146 126,118" stroke="rgba(255,255,255,0.1)" stroke-width="1.5" fill="rgba(255,255,255,0.05)"></polygon>
+
+  <rect x="176" y="46" width="90" height="28" rx="8" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.18)" stroke-width="1"></rect>
+  <circle cx="191" cy="60" r="6" fill="rgba(34,197,94,0.3)" stroke="rgba(34,197,94,0.6)" stroke-width="1"></circle>
+  <rect x="203" y="55" width="50" height="5" rx="2.5" fill="rgba(255,255,255,0.45)"></rect>
+  <rect x="203" y="64" width="36" height="4" rx="2" fill="rgba(255,255,255,0.2)"></rect>
+
+  <rect x="34" y="120" width="90" height="28" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.14)" stroke-width="1"></rect>
+  <circle cx="49" cy="134" r="6" fill="rgba(99,102,241,0.35)" stroke="rgba(99,102,241,0.7)" stroke-width="1"></circle>
+  <rect x="61" y="129" width="46" height="5" rx="2.5" fill="rgba(255,255,255,0.4)"></rect>
+  <rect x="61" y="138" width="34" height="4" rx="2" fill="rgba(255,255,255,0.18)"></rect>
+
+  <rect x="176" y="200" width="90" height="28" rx="8" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.12)" stroke-width="1"></rect>
+  <circle cx="191" cy="214" r="6" fill="rgba(245,158,11,0.3)" stroke="rgba(245,158,11,0.6)" stroke-width="1"></circle>
+  <rect x="203" y="209" width="44" height="5" rx="2.5" fill="rgba(255,255,255,0.38)"></rect>
+  <rect x="203" y="218" width="32" height="4" rx="2" fill="rgba(255,255,255,0.16)"></rect>
+
+
+  <circle cx="150" cy="133" r="24" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"></circle>
+  <polyline points="140,133 148,141 162,123" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></polyline>
+
+  <line x1="176" y1="60" x2="230" y2="87" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="3 3"></line>
+  <line x1="124" y1="120" x2="98" y2="134" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3 3"></line>
+  <line x1="174" y1="146" x2="200" y2="200" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="3 3"></line>
+</svg>
