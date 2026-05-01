@@ -3,5 +3,6 @@ export default function formatToday(locale = 'en-US') {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
+    year: 'numeric',
   }).format(new Date());
 }
