@@ -1,102 +1,45 @@
-import { Badge } from '@/components/ui/badge';
+import TicketsStatusCard from '@/components/dashboard/tickets-status-card';
 
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { requireAuth } from '@/lib/auth-utils';
+import { prisma } from '@/lib/prisma';
 
-import {
-  ArrowRight,
-  CheckCircle,
-  FolderOpen,
-  List,
-  MessageCircle,
-  Ticket,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function DashboardPage() {
-  await requireAuth();
+  const session = await requireAuth();
+
+  const orgUser = await prisma.organizationUser.findFirst({
+    where: { userId: session.user.id },
+    select: { organizationId: true },
+  });
+
+  if (!orgUser) return <div>Organization not found</div>;
+
+  const [total, open, inProgress, closed] = await Promise.all([
+    prisma.ticket.count({ where: { organizationId: orgUser.organizationId } }),
+    prisma.ticket.count({
+      where: { organizationId: orgUser.organizationId, status: 'NEW' },
+    }),
+    prisma.ticket.count({
+      where: { organizationId: orgUser.organizationId, status: 'IN_PROGRESS' },
+    }),
+    prisma.ticket.count({
+      where: { organizationId: orgUser.organizationId, status: 'CLOSED' },
+    }),
+  ]);
+
   return (
     <div className='pt-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
-        <Card className='relative overflow-hidden h-40 gap-2 hover:-translate-y-1 transition'>
-          <div className='bg-purple-500 w-full h-0.5 absolute top-0'></div>
-
-          <CardHeader>
-            <CardTitle className='flex justify-between items-center uppercase text-base text-slate-500/90 font-semibold'>
-              Total tickets{' '}
-              <Ticket className='text-purple-400 bg-purple-200/50 h-8 w-8 rounded-md p-1' />
-            </CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p className='text-4xl text-purple-400 font-bold'>146</p>
-          </CardContent>
-
-          <CardFooter>
-            <Badge className='text-xs font-semibold bg-green-300/30 text-green-700 rounded-md'>
-              17%
-            </Badge>
-            <p className='pl-2 text-slate-600 text-sm'>fata de ieri</p>
-          </CardFooter>
-        </Card>
-        <Card className='relative overflow-hidden h-40 gap-2 hover:-translate-y-1 transition'>
-          <div className='bg-amber-500 w-full h-0.5 absolute top-0'></div>
-
-          <CardHeader>
-            <CardTitle className='flex justify-between items-center uppercase text-base text-slate-500/90 font-semibold'>
-              Deschise{' '}
-              <FolderOpen className='text-amber-700 bg-amber-200/50 h-8 w-8 rounded-md p-1' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className='text-4xl text-amber-400 font-bold'>46</p>
-          </CardContent>
-          <CardFooter>
-            <Badge className='text-xs font-semibold bg-green-300/30 text-green-700 rounded-md'>
-              17%
-            </Badge>
-            <p className='pl-2 text-slate-600 text-sm'>fata de ieri</p>
-          </CardFooter>
-        </Card>
-        <Card className='relative overflow-hidden h-40 gap-2 hover:-translate-y-1 transition'>
-          <div className='bg-blue-500 w-full h-0.5 absolute top-0'></div>
-
-          <CardHeader>
-            <CardTitle className='flex justify-between items-center uppercase text-base text-slate-500/90 font-semibold'>
-              In progres{' '}
-              <List className='text-blue-700 bg-blue-200/50 h-8 w-8 rounded-md p-1' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className='text-4xl text-blue-400 font-bold'>9</p>
-          </CardContent>
-        </Card>
-        <Card className='relative overflow-hidden h-40 gap-2 hover:-translate-y-1 transition'>
-          <div className='bg-green-500 w-full h-0.5 absolute top-0'></div>
-
-          <CardHeader>
-            <CardTitle className='flex justify-between items-center uppercase text-base text-slate-500/90 font-semibold'>
-              Inchise{' '}
-              <CheckCircle className='text-green-700  bg-green-200/50 h-8 w-8 rounded-md p-1' />
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className='text-4xl text-green-400 font-bold'>6</p>
-          </CardContent>
-          <CardFooter>
-            <Badge className='text-xs font-semibold bg-green-300/30 text-green-700 rounded-md'>
-              17%
-            </Badge>
-            <p className='pl-2 text-slate-600 text-sm'>fata de ieri</p>
-          </CardFooter>
-        </Card>
+        <TicketsStatusCard
+          total={total}
+          open={open}
+          inProgress={inProgress}
+          closed={closed}
+        />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5 py-5'>
         <Card>
@@ -129,34 +72,7 @@ export default async function DashboardPage() {
           <CardHeader>
             <CardTitle>Activitate recenta</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ul className='flex flex-col gap-3'>
-              <li className='flex items-center gap-2'>
-                <MessageCircle className='size-4' />
-                <span className='font-bold'>Alex</span>
-                <span>change status of ticket</span>
-                <span className='text-muted-foreground'>5 min ago</span>
-              </li>
-              <li className='flex items-center gap-2'>
-                <MessageCircle className='size-4' />
-                <span className='font-bold'>Alex</span>
-                <span>change status of ticket</span>
-                <span className='text-muted-foreground'>5 min ago</span>
-              </li>
-              <li className='flex items-center gap-2'>
-                <MessageCircle className='size-4' />
-                <span className='font-bold'>Alex</span>
-                <span>change status of ticket</span>
-                <span className='text-muted-foreground'>5 min ago</span>
-              </li>{' '}
-              <li className='flex items-center gap-2'>
-                <MessageCircle className='size-4' />
-                <span className='font-bold'>Alex</span>
-                <span>change status of ticket</span>
-                <span className='text-muted-foreground'>5 min ago</span>
-              </li>
-            </ul>
-          </CardContent>
+          <CardContent></CardContent>
         </Card>
       </div>
       <Card>

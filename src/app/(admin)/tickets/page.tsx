@@ -1,16 +1,25 @@
+import TicketFilter from '@/components/ticket-filters';
+import TicketStatusBadge from '@/components/ticket-status-badge';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
 import { requireAuth } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
-import { DotIcon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
 export default async function Tickets() {
   const session = await requireAuth();
@@ -30,43 +39,45 @@ export default async function Tickets() {
     orderBy: { createdAt: 'desc' },
   });
 
-  const allCount = tickets.length;
-  const newCount = tickets.filter((t) => t.status === 'NEW').length;
-  const inProgressCount = tickets.filter(
-    (t) => t.status === 'IN_PROGRESS',
-  ).length;
-  const waitingCount = tickets.filter(
-    (t) => t.status === 'WAITING_CLIENT',
-  ).length;
-  const closedCount = tickets.filter((t) => t.status === 'CLOSED').length;
-
   return (
     <>
       <h1 className='text-2xl font-bold pt-6'>Tickets</h1>
       <p className='text-sm text-muted-foreground/90 pt-1'>
-        {tickets.length} open tickets
+        {tickets.length} tickets
       </p>
-      <div className='flex flex-wrap gap-2 pt-4'>
-        <div className='flex flex-wrap bg-sky-50 border border-sky-600 px-3 py-2 rounded-lg'>
-          <DotIcon className='w-5 h-5  text-blue-600' />
-          All {allCount}
-        </div>
-        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
-          <DotIcon />
-          New {newCount}
-        </div>
-        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
-          <DotIcon />
-          In Progress {inProgressCount}
-        </div>
-        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
-          <DotIcon />
-          Waiting {waitingCount}
-        </div>
-        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
-          <DotIcon />
-          Closed {closedCount}
-        </div>
+      <TicketFilter />
+      <div className='flex items-center gap-4 pt-10'>
+        <Input
+          type='search'
+          className='max-w-lg bg-slate-50 text-slate-900 text-sm font-normal hover:ring-1 ring-indigo-500/90 transition'
+          placeholder='Search tickets...'
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>
+              Priority
+              <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant='secondary'>
+              Source <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <Card className='mt-6'>
         <CardContent>
@@ -77,7 +88,7 @@ export default async function Tickets() {
                   #
                 </TableHead>
                 <TableHead className='text-muted-foreground text-sm'>
-                  Subject/Client
+                  Subject
                 </TableHead>
                 <TableHead className='text-muted-foreground text-sm'>
                   Status
@@ -96,20 +107,23 @@ export default async function Tickets() {
             <TableBody>
               {tickets.map((ticket) => (
                 <TableRow key={ticket.id}>
-                  <TableCell className='font-medium'>1</TableCell>
+                  <TableCell className='font-medium text-muted-foreground'>
+                    #{ticket.id.slice(0, 5).toUpperCase()}
+                  </TableCell>
                   <TableCell className='font-medium'>
                     {ticket.subject}
                   </TableCell>
-                  <TableCell>{ticket.status}</TableCell>
+                  <TableCell>
+                    <TicketStatusBadge key={ticket.id} status={ticket.status} />
+                  </TableCell>
+                  <TableCell>{ticket.priority}</TableCell>
+                  <TableCell>{ticket.source}</TableCell>
+                  <TableCell>
+                    {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TableCell colSpan={3}>Total</TableCell>
-                <TableCell className='text-right'>$2,500.00</TableCell>
-              </TableRow>
-            </TableFooter>
           </Table>
         </CardContent>
       </Card>
