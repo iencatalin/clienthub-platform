@@ -15,6 +15,7 @@ import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 import { Contact } from '@/types';
+import { Separator } from './ui/separator';
 
 type Props = {
   contacts: Contact[];
@@ -30,23 +31,24 @@ export function ContactCombobox({
   onCreateContact,
 }: Props) {
   const [open, setOpen] = useState(false);
-  const selected = contacts.find((c) => c.id == value);
+  const currentContact = contacts.find((c) => c.id === value);
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant='outline'
+          variant='secondary'
           role='combobox'
-          className='w-full justify-between bg-slate-100/10'
+          className='w-full justify-between bg-slate-200/50 text-slate-400/70 text-sm font-normal hover:ring-1 ring-indigo-500/90 transition'
         >
-          {' '}
-          {selected
-            ? (selected.name ?? selected.email ?? selected.phone)
+          {currentContact
+            ? (currentContact.name ??
+              currentContact.email ??
+              currentContact.phone)
             : 'Select contact...'}{' '}
           <ChevronDown className='ml-2 size-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className='w-4xl'>
         <Command>
           <CommandInput placeholder='Search by name, email, phone' />
           <CommandList>
@@ -54,7 +56,6 @@ export function ContactCombobox({
               <div className='flex flex-col items-center gap-2 py-2'>
                 <p className='text-muted-foreground'>No contact found</p>
                 <Button size='sm' variant='outline' onClick={onCreateContact}>
-                  {' '}
                   <Plus className='size-4 mr-1' />
                   Create new contact
                 </Button>
@@ -85,6 +86,7 @@ export function ContactCombobox({
                 </CommandItem>
               ))}
             </CommandGroup>
+            <Separator />
             <CommandGroup>
               <CommandItem onSelect={onCreateContact}>
                 <Plus className='mr-2 size-4' />

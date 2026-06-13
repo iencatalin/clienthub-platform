@@ -1,15 +1,10 @@
 import TicketForm from '@/components/ticket-form';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { PlusSquare } from 'lucide-react';
+import { Separator } from '@base-ui/react';
+import { Plus } from 'lucide-react';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -31,26 +26,60 @@ export default async function NewTickets() {
     select: { id: true, name: true, email: true, phone: true },
   });
   return (
-    <Card className='mt-10 p-4'>
-      <CardHeader>
-        <div className='flex items-center gap-3 mb-4'>
-          <div className='bg-gray-300/20 rounded-md p-1'>
-            <PlusSquare className='size-8 text-purple-400' />
-          </div>
-          <div>
-            <CardTitle className='font-bold text-xl text-slate-950 leading-tight'>
-              New Ticket
-            </CardTitle>
-            <CardDescription className='text-slate-500 pt-1'>
-              Create a new ticket
-            </CardDescription>
-          </div>
+    <div className='mt-6'>
+      <div className='flex items-center gap-4 border-slate-300/90 border-b pb-4'>
+        <div className='bg-purple-200/90 border border-purple-600 rounded-md p-1'>
+          <Plus className='size-8 text-purple-600' />
         </div>
-        <Separator />
-      </CardHeader>
-      <CardContent>
-        <TicketForm contacts={contacts} />
-      </CardContent>
-    </Card>
+        <div>
+          <h2 className='text-2xl font-semibold text-slate-900'>New ticket</h2>
+          <p className='text-slate-500/90 text-sm'>
+            Create a new support ticket manually
+          </p>
+        </div>
+      </div>
+
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-4 mt-4'>
+        <div className='col-span-3'>
+          <TicketForm contacts={contacts} />
+        </div>
+
+        <Card className='h-full lg:h-2/4 max-h-full'>
+          <CardHeader>
+            <CardTitle className='text-base text-slate-900 font-semibold'>
+              💡 Tips
+            </CardTitle>
+          </CardHeader>
+          <Separator className='text-slate-500/90' />
+          <CardContent>
+            <ul className=' flex flex-col text-sm gap-5'>
+              <li>
+                <span className='bg-sky-200/90 p-1 rounded-md mr-1'>📬</span>
+                <span className='text-slate-900 font-semibold'>
+                  No contact?
+                </span>
+                Click &quot;Create new contact&quot; in the dropdown to add one
+                on the spot.
+              </li>
+              <li>
+                <span className='bg-amber-200/90 p-1 rounded-md mr-1'>⚡</span>
+                <span className='text-slate-900 font-semibold'>
+                  Source = Phone{' '}
+                </span>{' '}
+                means the client called. Add a summary of the conversation in
+                the subject.
+              </li>
+              <li>
+                <span className='bg-cyan-200/90 p-1 rounded-md mr-1'>🔒</span>
+                <span className='text-slate-900 font-semibold'>
+                  Internal notes
+                </span>
+                are only visible to your team — never to the client.
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }

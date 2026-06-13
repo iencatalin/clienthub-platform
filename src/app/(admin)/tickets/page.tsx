@@ -2,93 +2,117 @@ import { Card, CardContent } from '@/components/ui/card';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { requireAuth } from '@/lib/auth-utils';
+import { prisma } from '@/lib/prisma';
+import { DotIcon } from 'lucide-react';
 
-const invoices = [
-  {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    invoice: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    invoice: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    invoice: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-];
+export default async function Tickets() {
+  const session = await requireAuth();
 
-export default function Tickets() {
+  const orgUser = await prisma.organizationUser.findFirst({
+    where: { userId: session.user.id },
+    select: { organizationId: true },
+  });
+
+  if (!orgUser) return <div>Organization not found</div>;
+
+  const tickets = await prisma.ticket.findMany({
+    where: { organizationId: orgUser.organizationId },
+    include: {
+      contact: true,
+    },
+    orderBy: { createdAt: 'desc' },
+  });
+
+  const allCount = tickets.length;
+  const newCount = tickets.filter((t) => t.status === 'NEW').length;
+  const inProgressCount = tickets.filter(
+    (t) => t.status === 'IN_PROGRESS',
+  ).length;
+  const waitingCount = tickets.filter(
+    (t) => t.status === 'WAITING_CLIENT',
+  ).length;
+  const closedCount = tickets.filter((t) => t.status === 'CLOSED').length;
+
   return (
-    <Card className='mt-6'>
-      <CardContent>
-        <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className='w-25'>Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className='text-right'>Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className='font-medium'>{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell className='text-right'>
-                  {invoice.totalAmount}
-                </TableCell>
+    <>
+      <h1 className='text-2xl font-bold pt-6'>Tickets</h1>
+      <p className='text-sm text-muted-foreground/90 pt-1'>
+        {tickets.length} open tickets
+      </p>
+      <div className='flex flex-wrap gap-2 pt-4'>
+        <div className='flex flex-wrap bg-sky-50 border border-sky-600 px-3 py-2 rounded-lg'>
+          <DotIcon className='w-5 h-5  text-blue-600' />
+          All {allCount}
+        </div>
+        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
+          <DotIcon />
+          New {newCount}
+        </div>
+        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
+          <DotIcon />
+          In Progress {inProgressCount}
+        </div>
+        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
+          <DotIcon />
+          Waiting {waitingCount}
+        </div>
+        <div className='flex flex-wrap  bg-sky-100 border border-sky-500 px-3 py-2 rounded-lg'>
+          <DotIcon />
+          Closed {closedCount}
+        </div>
+      </div>
+      <Card className='mt-6'>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className='text-muted-foreground text-sm'>
+                  #
+                </TableHead>
+                <TableHead className='text-muted-foreground text-sm'>
+                  Subject/Client
+                </TableHead>
+                <TableHead className='text-muted-foreground text-sm'>
+                  Status
+                </TableHead>
+                <TableHead className='text-muted-foreground text-sm'>
+                  Priority
+                </TableHead>
+                <TableHead className='text-muted-foreground text-sm'>
+                  Source
+                </TableHead>
+                <TableHead className='text-muted-foreground text-sm'>
+                  Date
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className='text-right'>$2,500.00</TableCell>
-            </TableRow>
-          </TableFooter>
-        </Table>
-      </CardContent>
-    </Card>
+            </TableHeader>
+            <TableBody>
+              {tickets.map((ticket) => (
+                <TableRow key={ticket.id}>
+                  <TableCell className='font-medium'>1</TableCell>
+                  <TableCell className='font-medium'>
+                    {ticket.subject}
+                  </TableCell>
+                  <TableCell>{ticket.status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3}>Total</TableCell>
+                <TableCell className='text-right'>$2,500.00</TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </CardContent>
+      </Card>
+    </>
   );
 }

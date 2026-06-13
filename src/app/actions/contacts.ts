@@ -35,7 +35,7 @@ export async function createContactAction(values: unknown) {
         phone: parsed.data.phone ?? null,
       },
     });
-    return { contactId: contact.id };
+    return { contactId: contact.id, contact: contact };
   } catch (error) {
     console.error(error);
     return { error: 'Something went wrong. Please try again' };
