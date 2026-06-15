@@ -31,7 +31,7 @@ const chartConfig = {
 
 export function TicketsChart() {
   return (
-    <ChartContainer config={chartConfig} className='h-[200px] w-full'>
+    <ChartContainer config={chartConfig} className='h-50 w-full'>
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -42,8 +42,13 @@ export function TicketsChart() {
           tickFormatter={(value) => value.slice(0, 3)}
         />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey='open' fill='var(--color-open)' radius={4} />
-        <Bar dataKey='closed' fill='var(--color-closed)' radius={4} />
+        <Bar dataKey='open' fill='var(--color-open)' radius={4} barSize={12} />
+        <Bar
+          dataKey='closed'
+          fill='var(--color-closed)'
+          radius={4}
+          barSize={12}
+        />
       </BarChart>
     </ChartContainer>
   );

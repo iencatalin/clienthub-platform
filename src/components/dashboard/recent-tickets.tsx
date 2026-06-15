@@ -32,7 +32,10 @@ export default async function RecentTickets() {
               #{ticket.id.slice(0, 4).toUpperCase()}
             </TableCell>
             <TableCell>
-              <Link href={`/tickets/${ticket.id}`} className='hover:underline'>
+              <Link
+                href={`/tickets/${ticket.id}`}
+                className='hover:underline font-semibold'
+              >
                 {ticket.subject}
               </Link>
             </TableCell>

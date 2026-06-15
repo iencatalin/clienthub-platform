@@ -11,19 +11,19 @@ const SOURCE_CONFIG: Record<
 > = {
   WHATSAPP: {
     label: 'Whatsapp',
-    className: 'bg-blue-50 text-blue-700 border-blue-200',
+    className: 'bg-green-100 text-green-700',
   },
   EMAIL: {
     label: 'Email',
-    className: 'bg-amber-50 text-amber-700 border-amber-200',
+    className: 'bg-amber-50 text-amber-700',
   },
   WEB: {
     label: 'Web',
-    className: 'bg-purple-50 text-purple-700 border-purple-200',
+    className: 'bg-purple-50 text-purple-700',
   },
   PHONE: {
     label: 'Phone',
-    className: 'bg-green-50 text-green-700 border-green-200',
+    className: 'bg-blue-100 text-blue-700',
   },
 };
 
@@ -32,7 +32,7 @@ export default function TicketSourceBadge({ source }: Props) {
   return (
     <div
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase transition-colors',
         config.className,
       )}
     >

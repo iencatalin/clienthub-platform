@@ -11,15 +11,15 @@ const PRIORITY_CONFIG: Record<
 > = {
   LOW: {
     label: 'LOW',
-    className: 'bg-blue-50 text-blue-700 border-blue-200',
+    className: 'bg-green-100/90 text-green-700',
   },
   MEDIUM: {
     label: 'MEDIUM',
-    className: 'bg-amber-50 text-amber-700 border-amber-200',
+    className: 'bg-amber-100/90 text-amber-700',
   },
   HIGH: {
     label: 'HIGH',
-    className: 'bg-purple-50 text-purple-700 border-purple-200',
+    className: 'bg-red-100/90 text-red-700',
   },
 };
 
@@ -28,7 +28,7 @@ export default function TicketPriorityBadge({ priority }: Props) {
   return (
     <div
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium transition-colors uppercase',
         config.className,
       )}
     >

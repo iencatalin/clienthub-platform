@@ -11,19 +11,19 @@ const STATUS_CONFIG: Record<
 > = {
   NEW: {
     label: 'New',
-    className: 'bg-blue-50 text-blue-700 border-blue-200',
+    className: 'bg-blue-50 text-blue-700',
   },
   IN_PROGRESS: {
     label: 'In Progress',
-    className: 'bg-amber-50 text-amber-700 border-amber-200',
+    className: 'bg-amber-50 text-amber-700',
   },
   WAITING_CLIENT: {
     label: 'Waiting',
-    className: 'bg-purple-50 text-purple-700 border-purple-200',
+    className: 'bg-purple-50 text-purple-700',
   },
   CLOSED: {
     label: 'Closed',
-    className: 'bg-green-50 text-green-700 border-green-200',
+    className: 'bg-green-50 text-green-700',
   },
 };
 
@@ -32,7 +32,7 @@ export default function TicketStatusBadge({ status }: Props) {
   return (
     <div
       className={cn(
-        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors',
+        'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase transition-colors',
         config.className,
       )}
     >
