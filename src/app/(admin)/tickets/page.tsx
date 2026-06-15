@@ -1,4 +1,6 @@
 import TicketFilter from '@/components/ticket-filters';
+import TicketPriorityBadge from '@/components/ticket-priority-badge';
+import TicketSourceBadge from '@/components/ticket-source-badge';
 import TicketStatusBadge from '@/components/ticket-status-badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -114,10 +116,14 @@ export default async function Tickets() {
                     {ticket.subject}
                   </TableCell>
                   <TableCell>
-                    <TicketStatusBadge key={ticket.id} status={ticket.status} />
+                    <TicketStatusBadge status={ticket.status} />
                   </TableCell>
-                  <TableCell>{ticket.priority}</TableCell>
-                  <TableCell>{ticket.source}</TableCell>
+                  <TableCell>
+                    <TicketPriorityBadge priority={ticket.priority} />
+                  </TableCell>
+                  <TableCell>
+                    <TicketSourceBadge source={ticket.source} />
+                  </TableCell>
                   <TableCell>
                     {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
                   </TableCell>

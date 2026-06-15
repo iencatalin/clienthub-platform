@@ -1,12 +1,13 @@
 import TicketsStatusCard from '@/components/dashboard/tickets-status-card';
-
+import RecentTickets from '@/components/dashboard/recent-tickets';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
+
 import { requireAuth } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { TicketsChart } from '@/components/dashboard/bar-chart';
 
 export default async function DashboardPage() {
   const session = await requireAuth();
@@ -56,16 +57,7 @@ export default async function DashboardPage() {
             </Link>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableBody>
-                <TableRow className='border-b border-slate-900'>
-                  <TableCell className='font-medium'>INV001</TableCell>
-                  <TableCell>Paid</TableCell>
-                  <TableCell>Credit Card</TableCell>
-                  <TableCell className='text-right'>$250.00</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <RecentTickets />
           </CardContent>
         </Card>
         <Card>
@@ -79,7 +71,9 @@ export default async function DashboardPage() {
         <CardHeader>
           <CardTitle>Tichete pe ultimele 7 zile</CardTitle>
         </CardHeader>
-        <CardContent></CardContent>
+        <CardContent>
+          <TicketsChart />
+        </CardContent>
       </Card>
     </div>
   );

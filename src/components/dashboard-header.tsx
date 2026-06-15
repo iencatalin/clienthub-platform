@@ -24,13 +24,13 @@ export function DashboardHeader() {
           className='mr-2 data-[orientation=vertical]:h-4 md:hidden block'
         />
 
-        <p className='text-xs text-muted-foreground'>{formatToday()}</p>
-        <h2 className='text-sm md:text-xl font-bold to-slate-900'>
+        <p className='text-xs text-muted-foreground '>{formatToday()}</p>
+        <h2 className='text-sm md:text-xl font-bold text-slate-900'>
           {getGreeting()},
           <span className='text-indigo-600 ml-1'>{session?.user.name} 👋</span>
         </h2>
       </div>
-      <div className='ml-auto flex items-center gap-2 pr-4'>
+      <div className='ml-auto flex items-center gap-2 pr-1 md:pr-4'>
         <Button variant='outline' className='bg-white flex items-center'>
           <SearchIcon className='size-4' />
         </Button>
@@ -42,7 +42,7 @@ export function DashboardHeader() {
         {showButton && (
           <Link
             href='/tickets/new'
-            className='flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-500 text-slate-50 rounded-lg px-4 py-2 text-sm font-semibold shadow-md hover:-translate-y-px transition'
+            className='hidden md:flex items-center gap-2 bg-linear-to-r from-blue-600 to-purple-500 text-slate-50 rounded-lg px-4 py-2 text-sm font-semibold shadow-md hover:-translate-y-px transition'
           >
             <PlusIcon className='w-4 h-4' />
             <span>New Ticket</span>
