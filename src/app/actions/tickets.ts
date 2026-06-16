@@ -3,6 +3,7 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { createTicketManualSchema } from '@/lib/validators/ticket';
+import { revalidatePath } from 'next/cache';
 
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -45,6 +46,6 @@ export async function createTicketAction(values: unknown) {
     console.error(error);
     return { error: 'Something went wrong. Please try again' };
   }
-
+  revalidatePath('/tickets');
   redirect('/tickets');
 }
