@@ -32,6 +32,38 @@ export default async function DashboardPage() {
     }),
   ]);
 
+  const ticketStats = await prisma.ticket.groupBy({
+    by: ['status'],
+    where: {
+      organizationId: orgUser.organizationId,
+    },
+    _count: {
+      status: true,
+    },
+  });
+
+  const chartData = [
+    {
+      status: 'New',
+      total: ticketStats.find((t) => t.status === 'NEW')?._count.status ?? 0,
+    },
+    {
+      status: 'In Progress',
+      total:
+        ticketStats.find((t) => t.status === 'IN_PROGRESS')?._count.status ?? 0,
+    },
+    {
+      status: 'Waiting',
+      total:
+        ticketStats.find((t) => t.status === 'WAITING_CLIENT')?._count.status ??
+        0,
+    },
+    {
+      status: 'Closed',
+      total: ticketStats.find((t) => t.status === 'CLOSED')?._count.status ?? 0,
+    },
+  ];
+
   return (
     <div className='pt-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
@@ -42,7 +74,7 @@ export default async function DashboardPage() {
           closed={closed}
         />
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-5 py-5'>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-5 pt-5'>
         <Card>
           <CardHeader className='flex items-center justify-between'>
             <CardTitle className='text-slate-800 text-sm font-medium'>
@@ -62,19 +94,13 @@ export default async function DashboardPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Activitate recenta</CardTitle>
+            <CardTitle>Ticket Status Overview</CardTitle>
           </CardHeader>
-          <CardContent></CardContent>
+          <CardContent>
+            <TicketsChart data={chartData} />
+          </CardContent>
         </Card>
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle>Tichete pe ultimele 7 zile</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <TicketsChart />
-        </CardContent>
-      </Card>
     </div>
   );
 }

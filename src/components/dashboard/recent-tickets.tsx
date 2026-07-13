@@ -3,12 +3,14 @@ import { Table, TableBody, TableCell, TableRow } from '../ui/table';
 import TicketStatusBadge from '../ticket-status-badge';
 import TicketPriorityBadge from '../ticket-priority-badge';
 import Link from 'next/link';
+import TicketSourceBadge from '../ticket-source-badge';
 
 export type RecentTickets = {
   id: string;
   subject: string | null;
   status: string;
   priority: string;
+  source: string;
 };
 
 export default async function RecentTickets() {
@@ -20,6 +22,7 @@ export default async function RecentTickets() {
       subject: true,
       status: true,
       priority: true,
+      source: true,
     },
   });
 
@@ -42,8 +45,11 @@ export default async function RecentTickets() {
             <TableCell>
               <TicketStatusBadge status={ticket.status} />
             </TableCell>
-            <TableCell className='text-right'>
+            <TableCell>
               <TicketPriorityBadge priority={ticket.priority} />
+            </TableCell>
+            <TableCell>
+              <TicketSourceBadge source={ticket.source} />
             </TableCell>
           </TableRow>
         ))}

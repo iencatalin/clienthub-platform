@@ -9,45 +9,40 @@ import {
   type ChartConfig,
 } from '@/components/ui/chart';
 
-const chartData = [
-  { month: 'January', open: 186, closed: 80 },
-  { month: 'February', open: 305, closed: 200 },
-  { month: 'March', open: 237, closed: 120 },
-  { month: 'April', open: 73, closed: 190 },
-  { month: 'May', open: 209, closed: 130 },
-  { month: 'June', open: 214, closed: 140 },
-];
-
 const chartConfig = {
-  open: {
-    label: 'open',
+  total: {
+    label: 'Tickets',
     color: '#2563eb',
-  },
-  closed: {
-    label: 'closed',
-    color: '#60a5fa',
   },
 } satisfies ChartConfig;
 
-export function TicketsChart() {
+type Props = {
+  data: {
+    status: string;
+    total: number;
+  }[];
+};
+
+export function TicketsChart({ data }: Props) {
   return (
-    <ChartContainer config={chartConfig} className='h-50 w-full'>
-      <BarChart accessibilityLayer data={chartData}>
+    <ChartContainer config={chartConfig} className='h-64 w-full'>
+      <BarChart accessibilityLayer data={data}>
         <CartesianGrid vertical={false} />
+
         <XAxis
-          dataKey='month'
+          dataKey='status'
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          tickFormatter={(value) => value.slice(0, 3)}
         />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey='open' fill='var(--color-open)' radius={4} barSize={12} />
+
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+
         <Bar
-          dataKey='closed'
-          fill='var(--color-closed)'
-          radius={4}
-          barSize={12}
+          dataKey='total'
+          fill='var(--color-total)'
+          radius={6}
+          barSize={32}
         />
       </BarChart>
     </ChartContainer>
