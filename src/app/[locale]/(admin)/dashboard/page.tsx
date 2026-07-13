@@ -7,7 +7,8 @@ import { prisma } from '@/lib/prisma';
 
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { TicketsChart } from '@/components/dashboard/bar-chart';
+
+import { TicketsPieChart } from '@/components/dashboard/pie-chart';
 
 export default async function DashboardPage() {
   const session = await requireAuth();
@@ -46,21 +47,18 @@ export default async function DashboardPage() {
     {
       status: 'New',
       total: ticketStats.find((t) => t.status === 'NEW')?._count.status ?? 0,
+      fill: 'var(--color-new)',
     },
     {
       status: 'In Progress',
       total:
         ticketStats.find((t) => t.status === 'IN_PROGRESS')?._count.status ?? 0,
-    },
-    {
-      status: 'Waiting',
-      total:
-        ticketStats.find((t) => t.status === 'WAITING_CLIENT')?._count.status ??
-        0,
+      fill: 'var(--color-progress)',
     },
     {
       status: 'Closed',
       total: ticketStats.find((t) => t.status === 'CLOSED')?._count.status ?? 0,
+      fill: 'var(--color-closed)',
     },
   ];
 
@@ -97,7 +95,7 @@ export default async function DashboardPage() {
             <CardTitle>Ticket Status Overview</CardTitle>
           </CardHeader>
           <CardContent>
-            <TicketsChart data={chartData} />
+            <TicketsPieChart data={chartData} />
           </CardContent>
         </Card>
       </div>
