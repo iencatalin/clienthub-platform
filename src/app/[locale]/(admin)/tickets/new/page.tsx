@@ -55,7 +55,7 @@ export default async function NewTickets() {
             <ul className=' flex flex-col text-sm gap-5'>
               <li>
                 <span className='bg-sky-200/90 p-1 rounded-md mr-1'>📬</span>
-                <span className='text-slate-900 font-semibold'>
+                <span className='text-slate-900 font-semibold mr-1'>
                   No contact?
                 </span>
                 Click &quot;Create new contact&quot; in the dropdown to add one
@@ -63,15 +63,15 @@ export default async function NewTickets() {
               </li>
               <li>
                 <span className='bg-amber-200/90 p-1 rounded-md mr-1'>⚡</span>
-                <span className='text-slate-900 font-semibold'>
-                  Source = Phone{' '}
-                </span>{' '}
+                <span className='text-slate-900 font-semibold mr-1'>
+                  Source = Phone
+                </span>
                 means the client called. Add a summary of the conversation in
                 the subject.
               </li>
               <li>
                 <span className='bg-cyan-200/90 p-1 rounded-md mr-1'>🔒</span>
-                <span className='text-slate-900 font-semibold'>
+                <span className='text-slate-900 font-semibold mr-1'>
                   Internal notes
                 </span>
                 are only visible to your team — never to the client.

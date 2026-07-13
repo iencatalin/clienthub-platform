@@ -106,12 +106,6 @@ export default function SignInForm() {
                   <FormLabel className='text-slate-700/90 text-sm'>
                     Password
                   </FormLabel>
-                  <Link
-                    href='/forgot-password'
-                    className='text-sm text-blue-600 hover:underline'
-                  >
-                    Forgot your password?
-                  </Link>
                 </div>
                 <FormControl>
                   <div className='relative'>
