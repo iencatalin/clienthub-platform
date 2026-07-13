@@ -14,8 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card';
+import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function HeroSection() {
+  const t = useTranslations('LandingPage.hero');
   return (
     <section className='bg-section'>
       <div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12'>
@@ -25,26 +28,30 @@ export default function HeroSection() {
             className='hidden md:inline-flex items-center gap-1 bg-slate-50 text-purple-500 p-2'
           >
             <Dot aria-hidden='true' />
-            Ticketing simplu pentru firme mici
+            {t('badge')}
           </Badge>
-          <h1 className='text-3xl md:text-6xl text-black font-semibold mt-3 md:mt-5'>
-            Every client request. <br />
-            <span className='text-blue-600 underline'>One clear inbox.</span>
+          <h1 className='text-3xl md:text-5xl text-black font-semibold mt-3 md:mt-5'>
+            {t('title')} <br />
+            <span className='text-blue-600 underline'>{t('highlight')}</span>
           </h1>
           <p className='pt-8 text-slate-500/90 leading-loose max-w-lg text-sm md:text-lg'>
-            Revelio ClientHub turns incoming messages from any channel into
-            organized tickets. Your team always knows what needs attention —
-            nothing gets lost.
+            {t('description')}
           </p>
           <div className='mt-10 flex items-center gap-3'>
-            <Button className='h-10 px-4 text-sm md:h-12 md:px-6 md:text-base bg-linear-to-r from-blue-600 to-purple-500'>
-              Creeaza cont gratuit
-            </Button>
+            <Link
+              href='/sign-up'
+              className='bg-linear-to-r from-blue-600 to-purple-500 px-3 md:px-6 py-3 rounded-lg text-white text-sm shadow-lg hover:-translate-y-px duration-200 transition'
+            >
+              {t('createAccount')}
+            </Link>
             <Button
               variant='outline'
-              className=' h-10 px-4 text-sm md:h-12 md:px-6 md:text-base bg-slate-50'
+              className='h-10 px-4 text-sm md:h-12 md:px-6 md:text-base bg-slate-50'
+              asChild
             >
-              Cum functioneaza <ArrowRight aria-hidden='true' />
+              <a href='#how-section'>
+                {t('howItWorks')} <ArrowRight aria-hidden='true' />
+              </a>
             </Button>
           </div>
         </div>
@@ -57,7 +64,7 @@ export default function HeroSection() {
                   className='text-green-500 size-4'
                 />
                 <p className='uppercase font-semibold text-sm text-muted-foreground/60 ml-2'>
-                  Incoming message
+                  {t('incomingMessage')}
                 </p>
               </div>
               <div className='bg-slate-100/50 max-w-xs md:max-w-sm p-3 rounded-bl-none rounded-md shadow-md outline outline-slate-300'>
@@ -79,34 +86,33 @@ export default function HeroSection() {
             <div className='ac-line'></div>
             <div className='flex items-center gap-1'>
               <ArrowDown aria-hidden='true' className='size-4 mt-1' />
-              <p className='font-semibold text-sm'>auto-converted to ticket</p>
+              <p className='font-semibold text-sm'>{t('autoConverted')}</p>
             </div>
             <div className='ac-line'></div>
           </div>
           <Card className='relative overflow-hidden'>
             <div className='absolute flex justify-between bg-indigo-200/60 text-indigo-600 w-full top-0 py-2 px-5 text-xs font-medium border-b border-indigo-600'>
-              TICKET #47 · CREATED AUTOMATICALLY
-              <span className='font-semibold text-xs'>just now</span>
+              {t('ticketCreated')}
+              <span className='font-semibold text-xs'>{t('justNow')}</span>
             </div>
             <CardHeader>
               <CardTitle className='pt-4'>Ionescu & Partners</CardTitle>
-              <CardDescription>
-                Annual report + Q3 breakdown · Due Friday
-              </CardDescription>
+              <CardDescription>{t('annualReport')}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className='flex items-center gap-2'>
                 <Badge className='bg-blue-100 text-blue-700 border border-blue-600 rounded-md'>
-                  NEW
+                  {t('new')}
                 </Badge>
                 <Badge className='bg-red-100 text-red-700 border border-red-600 rounded-md'>
-                  HIGH
+                  {t('high')}
                 </Badge>
                 <Badge className='bg-green-100 text-green-700  rounded-md'>
-                  Email
+                  {t('email')}
                 </Badge>
                 <Badge className='bg-sky-100 text-sky-700 rounded-md'>
-                  <Clock className='size-4' />2 min ago
+                  <Clock className='size-4' />
+                  {t('minutesAgo')}
                 </Badge>
               </div>
             </CardContent>
@@ -119,7 +125,7 @@ export default function HeroSection() {
                     120
                   </span>
                   <span className='text-xs text-muted-foreground'>
-                    Total tickets
+                    {t('totalTickets')}
                   </span>
                 </div>
 
@@ -128,7 +134,7 @@ export default function HeroSection() {
                     98%
                   </span>
                   <span className='text-xs text-muted-foreground'>
-                    Response rate
+                    {t('responseRate')}
                   </span>
                 </div>
 
@@ -137,7 +143,7 @@ export default function HeroSection() {
                     1.4h
                   </span>
                   <span className='text-xs text-muted-foreground'>
-                    Avg. response
+                    {t('avgResponse')}
                   </span>
                 </div>
               </div>

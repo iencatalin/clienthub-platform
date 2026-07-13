@@ -1,21 +1,21 @@
+import { useTranslations } from 'next-intl';
 import { Card, CardContent } from '../ui/card';
 
 export default function HowSection() {
+  const t = useTranslations('LandingPage.how');
   return (
-    <section className='p-6 md:p-16' id='how'>
+    <section id='how-section' className='p-6 md:p-16'>
       <div className='max-w-7xl mx-auto'>
         <div className='max-w-2xl space-y-4 md:space-y-6'>
           <p className='text-blue-400 text-sm font-semibold uppercase tracking-wide'>
-            Cum functioneaza
+            {t('title')}
           </p>
 
           <h2 className='text-3xl md:text-5xl font-semibold'>
-            From message to resolved in 3 simple steps
+            {t('subtitle')}
           </h2>
 
-          <p className='text-muted-foreground max-w-md'>
-            No complex setup. You`re live in under 5 minutes.
-          </p>
+          <p className='text-muted-foreground max-w-md'>{t('description')}</p>
         </div>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-5 pt-5 md:pt-10'>
@@ -26,11 +26,10 @@ export default function HowSection() {
                 1
               </div>
               <h3 className='font-semibold text-base py-2'>
-                Connect your channels
+                {t('step1Title')}
               </h3>
               <p className='text-muted-foreground text-sm leading-relaxed'>
-                Link your email addresses, WhatsApp Business number, or embed a
-                web form. The system starts listening immediately
+                {t('step1Description')}
               </p>
             </CardContent>
           </Card>
@@ -41,11 +40,10 @@ export default function HowSection() {
                 2
               </div>
               <h3 className='font-semibold text-base py-2'>
-                Messages become tickets
+                {t('step2Title')}
               </h3>
               <p className='text-muted-foreground text-sm leading-relaxed'>
-                Every incoming message automatically creates an organized ticket
-                with priority, source, and full context attached.
+                {t('step2Description')}
               </p>
             </CardContent>
           </Card>
@@ -56,11 +54,10 @@ export default function HowSection() {
                 3
               </div>
               <h3 className='font-semibold text-base py-2'>
-                Team replies from one place
+                {t('step3Title')}
               </h3>
               <p className='text-muted-foreground text-sm leading-relaxed'>
-                Your team sees everything in one dashboard, replies directly,
-                and the client receives the answer on their preferred channel.
+                {t('step3Description')}
               </p>
             </CardContent>
           </Card>

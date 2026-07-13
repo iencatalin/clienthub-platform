@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Badge } from '../ui/badge';
 import {
   Card,
@@ -8,20 +9,18 @@ import {
 } from '../ui/card';
 
 export default function FeaturesSection() {
+  const t = useTranslations('LandingPage.features');
   return (
     <section className='bg-section'>
       <div className='max-w-7xl mx-auto'>
         <div className='max-w-2xl space-y-4 md:space-y-6'>
           <p className='text-blue-400 text-sm font-semibold uppercase tracking-wide'>
-            Features
+            {t('title')}
           </p>
           <h2 className='text-3xl md:text-5xl font-semibold'>
-            Everything you need, nothing you don`t
+            {t('subtitle')}
           </h2>
-          <p className='text-muted-foreground max-w-md'>
-            Built for small teams that deal with a high volume of client
-            requests daily.
-          </p>
+          <p className='text-muted-foreground max-w-md'>{t('description')}</p>
         </div>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-5 pt-10'>
           <Card>
@@ -30,12 +29,9 @@ export default function FeaturesSection() {
                 📬
               </div>
 
-              <CardTitle>Ticket creation</CardTitle>
+              <CardTitle>{t('ticketCreation')}</CardTitle>
 
-              <CardDescription>
-                Incoming messages become tickets instantly — no manual entry, no
-                copy-pasting, no missed requests.
-              </CardDescription>
+              <CardDescription>{t('ticketCreationDesc')}</CardDescription>
             </CardHeader>
 
             <CardContent>
@@ -52,11 +48,10 @@ export default function FeaturesSection() {
                 📊
               </div>
 
-              <CardTitle>Live dashboard</CardTitle>
+              <CardTitle>{t('liveDashboard')}</CardTitle>
 
               <CardDescription className='text-sm leading-tight'>
-                See open tickets, response times, and team performance at a
-                glance. Know what`s urgent before it becomes a problem.
+                {t('liveDashboardDesc')}
               </CardDescription>
             </CardHeader>
 

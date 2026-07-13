@@ -1,0 +1,145 @@
+{
+  "Metadata": {
+    "title": "Revelio ClientHub",
+    "description": "Platformă modernă de ticketing pentru firme mici și mijlocii."
+  },
+
+  "LandingPage": {
+    "login": "Autentificare",
+    "startFree": "Începe gratuit",
+
+    "hero": {
+      "badge": "Ticketing simplu pentru firme mici",
+      "title": "Fiecare cerere a clientului.",
+      "highlight": "Un singur inbox organizat.",
+      "description": "Revelio ClientHub transformă mesajele primite din orice canal în tichete organizate. Echipa ta știe întotdeauna ce necesită atenție — nimic nu se pierde.",
+      "createAccount": "Creează cont gratuit",
+      "howItWorks": "Cum funcționează",
+      "incomingMessage": "Mesaj primit",
+      "autoConverted": "Convertit automat în tichet",
+      "ticketCreated": "TICHET #47 · CREAT AUTOMAT",
+      "justNow": "acum",
+      "annualReport": "Bilanț anual + raport T3 · Termen: vineri",
+      "new": "NOU",
+      "high": "RIDICAT",
+      "email": "Email",
+      "minutesAgo": "acum 2 min",
+      "totalTickets": "Total tichete",
+      "responseRate": "Rată de răspuns",
+      "avgResponse": "Timp mediu de răspuns"
+    },
+
+    "how": {
+      "title": "Cum funcționează",
+      "subtitle": "De la mesaj la rezolvare în 3 pași simpli",
+      "description": "Fără configurări complicate. Poți începe în mai puțin de 5 minute.",
+
+      "step1Title": "Conectează canalele",
+      "step1Description": "Conectează adresele de email, numărul WhatsApp Business. Sistemul începe imediat să primească mesaje.",
+
+      "step2Title": "Mesajele devin tichete",
+      "step2Description": "Fiecare mesaj primit creează automat un tichet organizat, cu prioritate, sursă și tot contextul conversației.",
+
+      "step3Title": "Echipa răspunde dintr-un singur loc",
+      "step3Description": "Toți membrii echipei văd tichetele într-un singur dashboard și răspund direct, iar clientul primește răspunsul pe canalul preferat."
+    },
+
+    "features": {
+      "title": "Funcționalități",
+      "subtitle": "Tot ce ai nevoie, nimic în plus",
+      "description": "Construit pentru echipe mici care gestionează zilnic un volum mare de solicitări.",
+
+      "ticketCreation": "Creare automată de tichete",
+      "ticketCreationDesc": "Mesajele primite devin instant tichete — fără introducere manuală și fără solicitări pierdute.",
+
+      "liveDashboard": "Dashboard în timp real",
+      "liveDashboardDesc": "Vezi tichetele deschise, timpii de răspuns și performanța echipei într-un singur loc.",
+
+      "history": "Istoric complet al clientului",
+      "historyDesc": "Toate conversațiile din toate canalele sunt centralizate pentru fiecare client.",
+
+      "team": "Managementul echipei",
+      "teamDesc": "Atribuie tichete, stabilește roluri și urmărește cine lucrează la fiecare solicitare.",
+
+      "reply": "Răspunde din dashboard",
+      "replyDesc": "Scrii o singură dată, iar răspunsul este trimis automat pe canalul potrivit.",
+
+      "tags": "Etichete și priorități",
+      "tagsDesc": "Organizează tichetele cu etichete, priorități și filtre."
+    },
+
+    "banner": {
+      "title": "Construit pentru echipe care se mișcă rapid",
+      "description": "Rezultate reale obținute de echipe care folosesc ClientHub zilnic.",
+
+      "missed": "Mesaje pierdute pe lună",
+      "response": "Reducerea timpului mediu de răspuns",
+      "setup": "Timp până la configurare",
+      "free": "Gratuit, fără card"
+    },
+
+    "faq": {
+      "title": "Întrebări frecvente",
+
+      "q1": "Clienții mei trebuie să își creeze cont?",
+      "a1": "Nu. Clienții comunică exact ca până acum: prin email, WhatsApp sau formular web. Nu văd platforma.",
+
+      "q2": "Pot conecta mai multe adrese de email?",
+      "a2": "Da. Poți conecta mai multe inbox-uri și numere WhatsApp în același workspace.",
+
+      "q3": "Ce se întâmplă cu conversațiile existente?",
+      "a3": "Tichetele noi sunt create din momentul conectării canalelor. Poți crea și tichete manual.",
+
+      "q4": "Este chiar gratuit?",
+      "a4": "Da. Planul gratuit nu are limită de timp și include funcționalitățile esențiale."
+    },
+
+    "cta": {
+      "title": "Ești gata să îți organizezi solicitările?",
+      "description": "Gestionează toate solicitările clienților într-un singur loc, gratuit.",
+      "button": "Începe gratuit"
+    },
+
+    "footer": {
+      "description": "Management simplu al tichetelor pentru echipe mici care gestionează multe solicitări.",
+
+      "product": "Produs",
+      "features": "Funcționalități",
+      "faq": "Întrebări frecvente",
+      "integrations": "Integrări",
+
+      "company": "Companie",
+      "contact": "Contact",
+      "about": "Despre",
+
+      "legal": "Legal",
+      "terms": "Termeni",
+      "privacy": "Confidențialitate",
+      "gdpr": "GDPR",
+
+      "copyright": "© ClientHub 2026"
+    }
+  },
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "tickets": "Tickete",
+    "clients": "Clienți",
+    "settings": "Setări"
+  },
+  "dashboard": {
+    "greeting": "Bună dimineața",
+    "totalTickets": "Total tickete",
+    "open": "Deschise",
+    "inProgress": "În progres",
+    "closed": "Închise"
+  },
+  "tickets": {
+    "title": "Tickete",
+    "newTicket": "Ticket nou",
+    "subject": "Subiect",
+    "status": "Status",
+    "priority": "Prioritate",
+    "source": "Sursă"
+  }
+}

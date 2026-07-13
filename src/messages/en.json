@@ -1,0 +1,144 @@
+{
+  "Metadata": {
+    "title": "Revelio ClientHub",
+    "description": "Modern ticketing platform for small and medium-sized businesses."
+  },
+
+  "LandingPage": {
+    "login": "Sign in",
+    "startFree": "Get started for free",
+
+    "hero": {
+      "badge": "Simple ticketing for small businesses",
+      "title": "Every customer request.",
+      "highlight": "One clear inbox.",
+      "description": "Revelio ClientHub turns incoming messages from any channel into organized tickets. Your team always knows what needs attention—nothing gets lost.",
+      "createAccount": "Create a free account",
+      "howItWorks": "How it works",
+      "incomingMessage": "Incoming message",
+      "autoConverted": "Automatically converted to ticket",
+      "ticketCreated": "TICKET #47 · CREATED AUTOMATICALLY",
+      "justNow": "just now",
+      "annualReport": "Annual report + Q3 breakdown · Due Friday",
+      "new": "NEW",
+      "high": "HIGH",
+      "email": "Email",
+      "minutesAgo": "2 min ago",
+      "totalTickets": "Total tickets",
+      "responseRate": "Response rate",
+      "avgResponse": "Average response time"
+    },
+
+    "how": {
+      "title": "How it works",
+      "subtitle": "From message to resolution in 3 simple steps",
+      "description": "No complicated setup. Be up and running in under 5 minutes.",
+
+      "step1Title": "Connect your channels",
+      "step1Description": "Connect your email addresses, WhatsApp Business number.  The system starts listening immediately.",
+
+      "step2Title": "Messages become tickets",
+      "step2Description": "Every incoming message automatically creates an organized ticket with priority, source, and full context.",
+
+      "step3Title": "Reply from one place",
+      "step3Description": "Your team manages everything from one dashboard while customers receive replies on their preferred channel."
+    },
+
+    "features": {
+      "title": "Features",
+      "subtitle": "Everything you need, nothing you don't",
+      "description": "Built for small teams handling a high volume of customer requests every day.",
+
+      "ticketCreation": "Automatic ticket creation",
+      "ticketCreationDesc": "Incoming messages instantly become tickets—no manual work, no missed requests.",
+
+      "liveDashboard": "Live dashboard",
+      "liveDashboardDesc": "Track open tickets, response times and team performance in real time.",
+
+      "history": "Complete customer history",
+      "historyDesc": "Every conversation across every channel in one place.",
+
+      "team": "Team management",
+      "teamDesc": "Assign tickets, manage roles and track ownership.",
+
+      "reply": "Reply from the dashboard",
+      "replyDesc": "Write once and deliver replies through the correct communication channel.",
+
+      "tags": "Tags & priorities",
+      "tagsDesc": "Organize tickets using tags, priorities and filters."
+    },
+
+    "banner": {
+      "title": "Built for fast-moving teams",
+      "description": "Real results from teams using ClientHub every day.",
+
+      "missed": "Missed messages per month",
+      "response": "Average response time reduction",
+      "setup": "Time to get started",
+      "free": "Free to start, no credit card required"
+    },
+
+    "faq": {
+      "title": "Frequently asked questions",
+
+      "q1": "Do my customers need an account?",
+      "a1": "No. Customers continue using email, WhatsApp or your web form as usual. They never interact with the platform.",
+
+      "q2": "Can I connect multiple email addresses?",
+      "a2": "Yes. You can connect multiple email inboxes and WhatsApp numbers to the same workspace.",
+
+      "q3": "What happens to existing conversations?",
+      "a3": "New tickets are created from the moment you connect your channels. You can also create tickets manually.",
+
+      "q4": "Is it really free?",
+      "a4": "Yes. The free plan has no time limit and includes the core features you need."
+    },
+
+    "cta": {
+      "title": "Ready to get organized?",
+      "description": "Manage all customer requests from one place, for free.",
+      "button": "Get started for free"
+    },
+
+    "footer": {
+      "description": "Simple ticket management for small teams handling high volumes of customer requests.",
+
+      "product": "Product",
+      "features": "Features",
+      "faq": "FAQ",
+      "integrations": "Integrations",
+
+      "company": "Company",
+      "contact": "Contact",
+      "about": "About",
+
+      "legal": "Legal",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "gdpr": "GDPR",
+
+      "copyright": "© ClientHub 2026"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tickets": "Tickets",
+    "clients": "Clients",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "greeting": "Good morning",
+    "totalTickets": "Total tickets",
+    "open": "Open",
+    "inProgress": "In Progress",
+    "closed": "Closed"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "newTicket": "New Ticket",
+    "subject": "Subject",
+    "status": "Status",
+    "priority": "Priority",
+    "source": "Source"
+  }
+}

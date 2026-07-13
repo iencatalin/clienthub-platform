@@ -22,6 +22,7 @@ import {
 import { requireAuth } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 import { ChevronDown } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function Tickets() {
   const session = await requireAuth();
@@ -113,7 +114,12 @@ export default async function Tickets() {
                     #{ticket.id.slice(0, 5).toUpperCase()}
                   </TableCell>
                   <TableCell className='font-medium'>
-                    {ticket.subject}
+                    <Link
+                      href={`tickets/${ticket.id}`}
+                      className='hover:underline'
+                    >
+                      {ticket.subject}
+                    </Link>
                   </TableCell>
                   <TableCell>
                     <TicketStatusBadge status={ticket.status} />
