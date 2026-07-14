@@ -53,6 +53,14 @@ const data = {
           title: 'Members',
           url: '/settings/members',
         },
+        {
+          title: 'WhatsApp',
+          url: '/settings/whatsapp',
+        },
+        {
+          title: 'Email',
+          url: '/settings/email',
+        },
       ],
     },
   ],
