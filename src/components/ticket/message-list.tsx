@@ -1,4 +1,4 @@
-import { Message } from '@/generated/prisma/browser';
+import { Message } from '@/types';
 import MessageBubble from './message-bubble';
 
 type Props = {

@@ -1,4 +1,4 @@
-import { Message, TicketSource } from '@/generated/prisma/browser';
+import { Message, TicketSource } from '@/types';
 import ConversationEmpty from './conversation-empty';
 import MessageList from './message-list';
 
