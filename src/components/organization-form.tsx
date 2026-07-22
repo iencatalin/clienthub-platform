@@ -15,7 +15,7 @@ import {
   organizationSchema,
 } from '@/lib/validators/organizaton';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Organization } from '@/generated/prisma/client';
+import { Organization } from '@prisma/client';
 import { Button } from './ui/button';
 import updateOrganizationAction from '@/app/actions/organization';
 import { toast } from 'sonner';

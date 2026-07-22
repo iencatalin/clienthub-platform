@@ -1,4 +1,4 @@
-import { TicketStatus } from '@/generated/prisma/enums';
+import { TicketStatus } from '@/types';
 import { cn } from '@/lib/utils';
 
 type Props = {

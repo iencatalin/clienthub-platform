@@ -1,4 +1,4 @@
-import { OrganizationRole } from '@/generated/prisma/enums';
+import { OrganizationRole } from '@prisma/client';
 import { cn } from '@/lib/utils';
 
 const ROLE_CONFIG: Record<
