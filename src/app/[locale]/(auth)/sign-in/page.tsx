@@ -1,10 +1,12 @@
 import SignInForm from '@/components/signin-form';
 import { requireNoAuth } from '@/lib/auth-utils';
+import { getTranslations } from 'next-intl/server';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 export default async function SignInPage() {
   await requireNoAuth();
+  const t = await getTranslations();
 
   return (
     <>
@@ -27,11 +29,14 @@ export default async function SignInPage() {
         </div>
 
         <div className='absolute bottom-16 left-10 max-w-sm space-y-2'>
-          <h2 className='text-white text-3xl font-bold'>Every request.</h2>
-          <h3 className='text-white text-3xl font-bold'>Organized.</h3>
+          <h2 className='text-white text-3xl font-bold'>
+            {t('AuthSignInHero.titleLine1')}
+          </h2>
+          <h3 className='text-white text-3xl font-bold'>
+            {t('AuthSignInHero.titleLine2')}
+          </h3>
           <p className='text-white/80 text-sm'>
-            Sign in to your workspace and manage all incoming client requests
-            from one place.
+            {t('AuthSignInHero.description')}
           </p>
         </div>
       </div>

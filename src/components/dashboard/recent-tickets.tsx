@@ -4,17 +4,19 @@ import TicketStatusBadge from '../ticket-status-badge';
 import TicketPriorityBadge from '../ticket-priority-badge';
 import Link from 'next/link';
 import TicketSourceBadge from '../ticket-source-badge';
-
-export type RecentTickets = {
-  id: string;
-  subject: string | null;
-  status: string;
-  priority: string;
-  source: string;
-};
+import { requireAuth } from '@/lib/auth-utils';
 
 export default async function RecentTickets() {
+  const session = await requireAuth();
+  const orgUser = await prisma.organizationUser.findFirst({
+    where: { userId: session.user.id },
+    select: { organizationId: true },
+  });
+
+  if (!orgUser) return <div>Organization not found</div>;
+
   const recentTickets = await prisma.ticket.findMany({
+    where: { organizationId: orgUser.organizationId },
     orderBy: { createdAt: 'desc' },
     take: 5,
     select: {
@@ -29,6 +31,17 @@ export default async function RecentTickets() {
   return (
     <Table>
       <TableBody>
+        {recentTickets.length === 0 && (
+          <TableRow>
+            <TableCell
+              colSpan={5}
+              className='text-center text-muted-foreground'
+            >
+              No recent tickets found.
+            </TableCell>
+          </TableRow>
+        )}
+
         {recentTickets.map((ticket) => (
           <TableRow key={ticket.id} className='border-b border-slate-300/90'>
             <TableCell className='font-medium text-muted-foreground'>
@@ -37,7 +50,7 @@ export default async function RecentTickets() {
             <TableCell>
               <Link
                 href={`/tickets/${ticket.id}`}
-                className='hover:underline font-semibold'
+                className='font-semibold hover:underline underline-offset-4'
               >
                 {ticket.subject}
               </Link>

@@ -92,7 +92,9 @@ export default async function DashboardPage() {
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Ticket Status Overview</CardTitle>
+            <CardTitle className='text-slate-800 text-sm font-medium'>
+              Ticket Status Overview
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <TicketsPieChart data={chartData} />

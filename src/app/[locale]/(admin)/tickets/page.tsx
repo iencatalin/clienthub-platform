@@ -1,3 +1,4 @@
+import { SimulateMessageBtn } from '@/components/simulate-message-btn';
 import TicketFilter from '@/components/ticket-filters';
 import TicketPriorityBadge from '@/components/ticket-priority-badge';
 import TicketSourceBadge from '@/components/ticket-source-badge';
@@ -44,11 +45,21 @@ export default async function Tickets() {
 
   return (
     <>
-      <h1 className='text-2xl font-bold pt-6'>Tickets</h1>
-      <p className='text-sm text-muted-foreground/90 pt-1'>
-        {tickets.length} tickets
-      </p>
-      <TicketFilter />
+      <div className='flex justify-between items-center'>
+        <div>
+          <h1 className='text-2xl font-bold pt-6'>Tickets</h1>
+
+          {tickets.length > 0 && (
+            <p className='text-sm text-muted-foreground/90 pt-1'>
+              {tickets.length} tickets
+            </p>
+          )}
+          <TicketFilter />
+        </div>
+        <div className='pr-8'>
+          <SimulateMessageBtn />
+        </div>
+      </div>
       <div className='flex items-center gap-4 pt-10'>
         <Input
           type='search'
@@ -63,9 +74,9 @@ export default async function Tickets() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Low</DropdownMenuItem>
+            <DropdownMenuItem>Medium</DropdownMenuItem>
+            <DropdownMenuItem>High</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
@@ -76,12 +87,14 @@ export default async function Tickets() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>WEB</DropdownMenuItem>
+            <DropdownMenuItem>PHONE</DropdownMenuItem>
+            <DropdownMenuItem>WHATSAPP</DropdownMenuItem>
+            <DropdownMenuItem>EMAIL</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
       <Card className='mt-6'>
         <CardContent>
           <Table>
@@ -108,33 +121,44 @@ export default async function Tickets() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {tickets.map((ticket) => (
-                <TableRow key={ticket.id}>
-                  <TableCell className='font-medium text-muted-foreground'>
-                    #{ticket.id.slice(0, 5).toUpperCase()}
-                  </TableCell>
-                  <TableCell className='font-medium'>
-                    <Link
-                      href={`tickets/${ticket.id}`}
-                      className='hover:underline'
-                    >
-                      {ticket.subject}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <TicketStatusBadge status={ticket.status} />
-                  </TableCell>
-                  <TableCell>
-                    <TicketPriorityBadge priority={ticket.priority} />
-                  </TableCell>
-                  <TableCell>
-                    <TicketSourceBadge source={ticket.source} />
-                  </TableCell>
-                  <TableCell>
-                    {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+              {tickets.length === 0 ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={6}
+                    className='text-center py-10 text-muted-foreground'
+                  >
+                    No tickets found
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                tickets.map((ticket) => (
+                  <TableRow key={ticket.id}>
+                    <TableCell className='font-medium text-muted-foreground'>
+                      #{ticket.id.slice(0, 5).toUpperCase()}
+                    </TableCell>
+                    <TableCell className='font-medium'>
+                      <Link
+                        href={`/tickets/${ticket.id}`}
+                        className='hover:underline'
+                      >
+                        {ticket.subject}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <TicketStatusBadge status={ticket.status} />
+                    </TableCell>
+                    <TableCell>
+                      <TicketPriorityBadge priority={ticket.priority} />
+                    </TableCell>
+                    <TableCell>
+                      <TicketSourceBadge source={ticket.source} />
+                    </TableCell>
+                    <TableCell>
+                      {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

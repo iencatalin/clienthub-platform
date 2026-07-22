@@ -33,7 +33,13 @@ type TicketsPieChartProps = {
 };
 
 export function TicketsPieChart({ data }: TicketsPieChartProps) {
-  return (
+  const isEmpty = data.every((item) => item.total === 0);
+
+  return isEmpty ? (
+    <div className='flex h-80 w-full items-center justify-center text-muted-foreground'>
+      No data available
+    </div>
+  ) : (
     <ChartContainer config={chartConfig} className='h-80 w-full'>
       <PieChart>
         <ChartTooltip

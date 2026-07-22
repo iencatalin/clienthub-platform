@@ -9,7 +9,7 @@
     "startFree": "Get started for free",
 
     "hero": {
-      "badge": "Simple ticketing for small businesses",
+      "badge": "Simple ticketing",
       "title": "Every customer request.",
       "highlight": "One clear inbox.",
       "description": "Revelio ClientHub turns incoming messages from any channel into organized tickets. Your team always knows what needs attention—nothing gets lost.",
@@ -119,6 +119,48 @@
 
       "copyright": "© ClientHub 2026"
     }
+  },
+  "AuthSignInHero": {
+    "titleLine1": "Every request.",
+    "titleLine2": "Organized.",
+    "description": "Sign in to your workspace and manage all incoming client requests from one place."
+  },
+
+  "AuthSignUpHero": {
+    "titleLine1": "Start in",
+    "titleLine2": "minutes.",
+    "description": "Create your workspace and start managing client requests right away."
+  },
+  "SignIn": {
+    "title": "Welcome back 👋",
+    "description": "Sign in to your workspace to continue",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signInButton": "Sign In",
+    "loadingButton": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create one free"
+  },
+
+  "SignUp": {
+    "title": "Create your account",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Your name",
+    "organizationLabel": "Organization",
+    "organizationPlaceholder": "Organization name",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Enter your email",
+    "emailHint": "We'll send a confirmation to this address",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "terms": "I agree to the Terms of Service and Privacy Policy",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
   },
   "nav": {
     "dashboard": "Dashboard",

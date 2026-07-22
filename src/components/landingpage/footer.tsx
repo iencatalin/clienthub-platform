@@ -1,7 +1,9 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { Separator } from '../ui/separator';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
+  const t = useTranslations('LandingPage.footer');
   return (
     <footer className='text-center bg-slate-900 text-amber-50 space-y-4 py-10'>
       <ul className='flex md:flex-row flex-col items-center md:items-start justify-between text-sm max-w-6xl mx-auto pb-6'>
@@ -9,22 +11,21 @@ export default function Footer() {
           <ul className='text-center md:text-left'>
             <p className='font-bold text-base'>Revelio ClientHub</p>
             <p className='text-slate-400/90 mx-auto max-w-xs text-sm pt-4'>
-              Simple ticket management for small teams dealing with high volumes
-              of client requests.
+              {t('description')}
             </p>
           </ul>
         </li>
         <li>
-          <ul className='space-y-4 text-left'>
-            <li className='text-slate-400 uppercase text-xs font-semibold tracking-wide'>
-              Produs
+          <ul className='space-y-4 text-center md:text-left'>
+            <li className='text-slate-400 uppercase pt-4 text-xs font-semibold tracking-wide'>
+              {t('product')}
             </li>
             <li>
               <Link
                 href='/features'
                 className='hover:text-slate-400 transition-colors'
               >
-                Features
+                {t('features')}
               </Link>
             </li>
             <li>
@@ -32,7 +33,7 @@ export default function Footer() {
                 href='/faq'
                 className='hover:text-slate-400 transition-colors'
               >
-                FAQ
+                {t('faq')}
               </Link>
             </li>
             <li>
@@ -40,15 +41,15 @@ export default function Footer() {
                 href='/integrations'
                 className='hover:text-slate-400 transition-colors'
               >
-                Integrations
+                {t('integrations')}
               </Link>
             </li>
           </ul>
         </li>
         <li>
-          <ul className='space-y-4 text-left'>
-            <li className='text-slate-400 uppercase text-xs font-semibold tracking-wide'>
-              Company
+          <ul className='space-y-4 text-center md:text-left'>
+            <li className='text-slate-400 uppercase pt-4 text-xs font-semibold tracking-wide'>
+              {t('company')}
             </li>
             <li>
               <Link
@@ -63,22 +64,22 @@ export default function Footer() {
                 href='/about'
                 className='hover:text-slate-400 transition-colors'
               >
-                About
+                {t('about')}
               </Link>
             </li>
           </ul>
         </li>
         <li>
-          <ul className='space-y-4 text-left'>
-            <li className='text-slate-400 uppercase text-xs font-semibold tracking-wide'>
-              Legal
+          <ul className='space-y-4 text-center md:text-left'>
+            <li className='text-slate-400 uppercase pt-4 text-xs font-semibold tracking-wide'>
+              {t('legal')}
             </li>
             <li>
               <Link
                 href='/terms'
                 className='hover:text-slate-400 transition-colors'
               >
-                Terms
+                {t('terms')}
               </Link>
             </li>
             <li>
@@ -86,7 +87,7 @@ export default function Footer() {
                 href='/privacy'
                 className='hover:text-slate-400 transition-colors'
               >
-                Privacy
+                {t('privacy')}
               </Link>
             </li>
             <li>
@@ -94,7 +95,7 @@ export default function Footer() {
                 href='/gdpr'
                 className='hover:text-slate-400 transition-colors'
               >
-                GDPR
+                {t('gdpr')}
               </Link>
             </li>
           </ul>

@@ -69,11 +69,10 @@ export default function FeaturesSection() {
                 🗂️
               </div>
 
-              <CardTitle>Full client history</CardTitle>
+              <CardTitle>{t('history')}</CardTitle>
 
               <CardDescription className='text-sm'>
-                Every conversation, across every channel, in one place per
-                client. No more digging through inboxes.
+                {t('historyDesc')}
               </CardDescription>
             </CardHeader>
 
@@ -89,12 +88,9 @@ export default function FeaturesSection() {
             <CardHeader className='space-y-2 px-4'>
               <div className='text-2xl bg-red-100 w-fit p-1 rounded-md'>👥</div>
 
-              <CardTitle>Team management</CardTitle>
+              <CardTitle>{t('team')}</CardTitle>
 
-              <CardDescription>
-                Assign tickets to team members, set roles (Owner, Admin, Agent),
-                and track who`s handling what.
-              </CardDescription>
+              <CardDescription>{t('teamDesc')}</CardDescription>
             </CardHeader>
 
             <CardContent className='px-4'>
@@ -111,12 +107,9 @@ export default function FeaturesSection() {
                 ⚡
               </div>
 
-              <CardTitle>Reply from dashboard</CardTitle>
+              <CardTitle>{t('reply')}</CardTitle>
 
-              <CardDescription>
-                Write your reply once and it goes out on the right channel
-                automatically. Client gets it where they expect it.
-              </CardDescription>
+              <CardDescription>{t('replyDesc')}</CardDescription>
             </CardHeader>
 
             <CardContent className='px-4'>
@@ -131,12 +124,9 @@ export default function FeaturesSection() {
             <CardHeader className='space-y-2 px-4'>
               <div className='bg-sky-100 p-1 rounded-md w-fit text-2xl'>🏷️</div>
 
-              <CardTitle>Tags & priorities</CardTitle>
+              <CardTitle>{t('tags')}</CardTitle>
 
-              <CardDescription>
-                Organize tickets with tags, set priorities, filter by anything.
-                Find what you need in seconds.
-              </CardDescription>
+              <CardDescription>{t('tagsDesc')}</CardDescription>
             </CardHeader>
 
             <CardContent className='px-4'>

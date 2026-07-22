@@ -9,7 +9,7 @@
     "startFree": "Începe gratuit",
 
     "hero": {
-      "badge": "Ticketing simplu pentru firme mici",
+      "badge": "Ticketing simplu",
       "title": "Fiecare cerere a clientului.",
       "highlight": "Un singur inbox organizat.",
       "description": "Revelio ClientHub transformă mesajele primite din orice canal în tichete organizate. Echipa ta știe întotdeauna ce necesită atenție — nimic nu se pierde.",
@@ -119,6 +119,47 @@
 
       "copyright": "© ClientHub 2026"
     }
+  },
+
+  "AuthSignInHero": {
+    "titleLine1": "Fiecare solicitare.",
+    "titleLine2": "Organizată.",
+    "description": "Autentifică-te în spațiul tău de lucru și gestionează toate solicitările primite de la clienți dintr-un singur loc."
+  },
+  "AuthSignUpHero": {
+    "titleLine1": "Începe în",
+    "titleLine2": "câteva minute.",
+    "description": "Creează-ți spațiul de lucru și începe să gestionezi imediat solicitările clienților."
+  },
+  "SignIn": {
+    "title": "Bine ai revenit 👋",
+    "description": "Autentifică-te în spațiul tău de lucru pentru a continua",
+    "emailLabel": "Adresă de email",
+    "emailPlaceholder": "Introdu adresa ta de email",
+    "passwordLabel": "Parolă",
+    "passwordPlaceholder": "Introdu parola ta",
+    "signInButton": "Autentificare",
+    "loadingButton": "Se autentifică...",
+    "noAccount": "Nu ai un cont?",
+    "createAccount": "Creează unul gratuit"
+  },
+  "SignUp": {
+    "title": "Creează-ți contul",
+    "nameLabel": "Nume complet",
+    "namePlaceholder": "Numele tău",
+    "organizationLabel": "Organizație",
+    "organizationPlaceholder": "Numele organizației",
+    "emailLabel": "Email",
+    "emailPlaceholder": "Introdu adresa de email",
+    "emailHint": "Îți vom trimite o confirmare la această adresă",
+    "passwordLabel": "Parolă",
+    "passwordPlaceholder": "Introdu parola",
+    "confirmPasswordLabel": "Confirmă parola",
+    "confirmPasswordPlaceholder": "Confirmă parola",
+    "terms": "Sunt de acord cu Termenii și Condițiile și Politica de confidențialitate",
+    "createAccount": "Creează contul",
+    "alreadyHaveAccount": "Ai deja un cont?",
+    "signIn": "Autentifică-te"
   },
 
   "nav": {
