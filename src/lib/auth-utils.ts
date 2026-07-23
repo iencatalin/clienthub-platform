@@ -1,6 +1,7 @@
 import { headers } from 'next/headers';
 import { auth } from './auth';
 import { redirect } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
 
 async function getAuthSession() {
   return auth.api.getSession({
@@ -24,4 +25,17 @@ export const requireNoAuth = async () => {
     redirect('/dashboard');
   }
   return session;
+};
+
+export const getOrgUser = async () => {
+  const session = await requireAuth();
+
+  const orgUser = await prisma.organizationUser.findFirst({
+    where: { userId: session.user.id },
+    select: { organizationId: true },
+  });
+
+  if (!orgUser) redirect('/sign-in');
+
+  return { session, orgUser };
 };

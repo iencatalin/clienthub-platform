@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import {
   CheckCircle,
@@ -95,8 +89,6 @@ export default function TicketsStatusCard({
               {card.count}
             </p>
           </CardContent>
-
-          <CardFooter></CardFooter>
         </Card>
       ))}
     </>

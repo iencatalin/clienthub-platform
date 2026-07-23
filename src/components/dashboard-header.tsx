@@ -24,7 +24,9 @@ export function DashboardHeader() {
           className='mr-2 data-[orientation=vertical]:h-4 md:hidden block'
         />
 
-        <p className='text-xs text-muted-foreground '>{formatToday()}</p>
+        <p className='text-xs text-muted-foreground hidden md:block'>
+          {formatToday()}
+        </p>
         <h2 className='text-sm md:text-xl font-bold text-slate-900'>
           {getGreeting()},
           <span className='text-indigo-600 ml-1'>{session?.user.name} 👋</span>

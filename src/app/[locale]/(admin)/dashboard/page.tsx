@@ -2,46 +2,22 @@ import TicketsStatusCard from '@/components/dashboard/tickets-status-card';
 import RecentTickets from '@/components/dashboard/recent-tickets';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { requireAuth } from '@/lib/auth-utils';
-import { prisma } from '@/lib/prisma';
+import { getOrgUser } from '@/lib/auth-utils';
 
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 import { TicketsPieChart } from '@/components/dashboard/pie-chart';
+import { getDashboardStats, getTicketStats } from '@/lib/queries/dashboard';
 
 export default async function DashboardPage() {
-  const session = await requireAuth();
+  const { orgUser } = await getOrgUser();
+  const { organizationId } = orgUser;
 
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-    select: { organizationId: true },
-  });
-
-  if (!orgUser) return <div>Organization not found</div>;
-
-  const [total, open, inProgress, closed] = await Promise.all([
-    prisma.ticket.count({ where: { organizationId: orgUser.organizationId } }),
-    prisma.ticket.count({
-      where: { organizationId: orgUser.organizationId, status: 'NEW' },
-    }),
-    prisma.ticket.count({
-      where: { organizationId: orgUser.organizationId, status: 'IN_PROGRESS' },
-    }),
-    prisma.ticket.count({
-      where: { organizationId: orgUser.organizationId, status: 'CLOSED' },
-    }),
+  const [stats, ticketStats] = await Promise.all([
+    getDashboardStats(organizationId),
+    getTicketStats(organizationId),
   ]);
-
-  const ticketStats = await prisma.ticket.groupBy({
-    by: ['status'],
-    where: {
-      organizationId: orgUser.organizationId,
-    },
-    _count: {
-      status: true,
-    },
-  });
 
   const chartData = [
     {
@@ -65,12 +41,7 @@ export default async function DashboardPage() {
   return (
     <div className='pt-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
-        <TicketsStatusCard
-          total={total}
-          open={open}
-          inProgress={inProgress}
-          closed={closed}
-        />
+        <TicketsStatusCard {...stats} />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-5 pt-5'>
         <Card>
@@ -87,7 +58,7 @@ export default async function DashboardPage() {
             </Link>
           </CardHeader>
           <CardContent>
-            <RecentTickets />
+            <RecentTickets organizationId={organizationId} />
           </CardContent>
         </Card>
         <Card>
