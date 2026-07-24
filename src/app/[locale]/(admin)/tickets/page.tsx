@@ -3,14 +3,7 @@ import TicketFilter from '@/components/ticket-filters';
 import TicketPriorityBadge from '@/components/ticket-priority-badge';
 import TicketSourceBadge from '@/components/ticket-source-badge';
 import TicketStatusBadge from '@/components/ticket-status-badge';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -20,28 +13,36 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { requireAuth } from '@/lib/auth-utils';
-import { prisma } from '@/lib/prisma';
-import { ChevronDown } from 'lucide-react';
+import { getOrgUser } from '@/lib/auth-utils';
+
+import { getAllTickets, getTicketCounts } from '@/lib/queries/tickets';
+import { getTicketTitle } from '@/utils/get-ticket-title';
 import Link from 'next/link';
+import { TicketPriority, TicketSource, TicketStatus } from '@/types';
+import TicketSourceFilter from '@/components/ticket-source-filter';
+import TicketPriorityFilter from '@/components/ticket-priority-filter';
 
-export default async function Tickets() {
-  const session = await requireAuth();
+type Props = {
+  searchParams: Promise<{
+    status?: string;
+    priority?: string;
+    source?: string;
+    search?: string;
+  }>;
+};
 
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-    select: { organizationId: true },
+export default async function Tickets({ searchParams }: Props) {
+  const { orgUser } = await getOrgUser();
+
+  const params = await searchParams;
+  const tickets = await getAllTickets(orgUser.organizationId, {
+    status: params.status as TicketStatus | undefined,
+    priority: params.priority as TicketPriority | undefined,
+    source: params.source as TicketSource | undefined,
+    search: params.search,
   });
 
-  if (!orgUser) return <div>Organization not found</div>;
-
-  const tickets = await prisma.ticket.findMany({
-    where: { organizationId: orgUser.organizationId },
-    include: {
-      contact: true,
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+  const counts = await getTicketCounts(orgUser.organizationId);
 
   return (
     <>
@@ -54,7 +55,7 @@ export default async function Tickets() {
               {tickets.length} tickets
             </p>
           )}
-          <TicketFilter />
+          <TicketFilter counts={counts} />
         </div>
         <div className='pr-8'>
           <SimulateMessageBtn />
@@ -66,33 +67,8 @@ export default async function Tickets() {
           className='max-w-lg bg-slate-50 text-slate-900 text-sm font-normal hover:ring-1 ring-indigo-500/90 transition'
           placeholder='Search tickets...'
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='secondary'>
-              Priority
-              <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Low</DropdownMenuItem>
-            <DropdownMenuItem>Medium</DropdownMenuItem>
-            <DropdownMenuItem>High</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='secondary'>
-              Source <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>WEB</DropdownMenuItem>
-            <DropdownMenuItem>PHONE</DropdownMenuItem>
-            <DropdownMenuItem>WHATSAPP</DropdownMenuItem>
-            <DropdownMenuItem>EMAIL</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <TicketSourceFilter />
+        <TicketPriorityFilter />
       </div>
 
       <Card className='mt-6'>
@@ -134,14 +110,14 @@ export default async function Tickets() {
                 tickets.map((ticket) => (
                   <TableRow key={ticket.id}>
                     <TableCell className='font-medium text-muted-foreground'>
-                      #{ticket.id.slice(0, 5).toUpperCase()}
+                      #{ticket.ticketNumber}
                     </TableCell>
                     <TableCell className='font-medium'>
                       <Link
                         href={`/tickets/${ticket.id}`}
                         className='hover:underline'
                       >
-                        {ticket.subject}
+                        {getTicketTitle(ticket)}
                       </Link>
                     </TableCell>
                     <TableCell>
@@ -153,6 +129,7 @@ export default async function Tickets() {
                     <TableCell>
                       <TicketSourceBadge source={ticket.source} />
                     </TableCell>
+
                     <TableCell>
                       {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
                     </TableCell>
