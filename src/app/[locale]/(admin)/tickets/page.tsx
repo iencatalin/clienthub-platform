@@ -35,6 +35,7 @@ export default async function Tickets({ searchParams }: Props) {
   const { orgUser } = await getOrgUser();
 
   const params = await searchParams;
+
   const tickets = await getAllTickets(orgUser.organizationId, {
     status: params.status as TicketStatus | undefined,
     priority: params.priority as TicketPriority | undefined,

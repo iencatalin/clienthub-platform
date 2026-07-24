@@ -6,9 +6,8 @@ import { revalidatePath } from 'next/cache';
 
 export async function simulateMessageAction(values: {
   phone?: string;
-  email?: string;
   message: string;
-  source: 'WHATSAPP' | 'EMAIL';
+  source: 'WHATSAPP';
 }) {
   const session = await requireAuth();
 
@@ -19,14 +18,12 @@ export async function simulateMessageAction(values: {
 
   if (!orgUser) return { error: 'Organization not found' };
 
-  const { phone, email, message, source } = values;
-
-  if (!phone && !email) return { error: 'Phone or email is required' };
+  const { phone, message, source } = values;
 
   let contact = await prisma.contact.findFirst({
     where: {
       organizationId: orgUser.organizationId,
-      OR: [...(phone ? [{ phone }] : []), ...(email ? [{ email }] : [])],
+      OR: [...(phone ? [{ phone }] : [])],
     },
   });
 
@@ -35,8 +32,7 @@ export async function simulateMessageAction(values: {
       data: {
         organizationId: orgUser.organizationId,
         phone: phone ?? null,
-        email: email ?? null,
-        name: phone ?? email,
+        name: phone,
       },
     });
   }
