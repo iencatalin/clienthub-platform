@@ -2,6 +2,16 @@
 
 A ticket management platform for teams that need to organize and track client requests in one place.
 
+## 🚧 Project Status
+
+Revelio ClientHub is currently in **Beta** and is under active development.
+
+The core ticket management functionality is complete and fully usable. Additional communication channels such as **WhatsApp Business** and **Email integrations** are planned but are **not yet implemented**.
+
+These integrations require external providers, verification processes, and approval from third-party services (such as Meta for WhatsApp Business), so they are outside the scope of the current beta version.
+
+The current focus is on building a solid, scalable architecture before integrating external messaging providers.
+
 ## 🚀 Live Demo
 
 **[revelio-clienthub-platform.vercel.app](https://revelio-clienthub-platform.vercel.app)**
