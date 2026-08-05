@@ -14,7 +14,15 @@ export async function signUpAction(values: unknown) {
     };
   }
 
-  const { name, email, password, organizationName } = parsed.data;
+  const {
+    name,
+    email,
+    password,
+    organizationName,
+    organizationType,
+    cui,
+    regCom,
+  } = parsed.data;
 
   try {
     const { user } = await auth.api.signUpEmail({
@@ -23,7 +31,7 @@ export async function signUpAction(values: unknown) {
 
     await prisma.$transaction(async (tx) => {
       const organization = await tx.organization.create({
-        data: { name: organizationName },
+        data: { name: organizationName, type: organizationType, cui, regCom },
       });
 
       await tx.organizationUser.create({

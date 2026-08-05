@@ -19,6 +19,9 @@ export const signUpSchema = z
         `Min ${passwordRules.minLength} characters`,
       ),
     organizationName: z.string().min(2, 'Organization name is required'),
+    organizationType: z.enum(['INDIVIDUAL', 'COMPANY']),
+    cui: z.string().optional(),
+    regCom: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords don`t match',

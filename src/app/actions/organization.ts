@@ -1,6 +1,6 @@
 'use server';
 import { prisma } from '@/lib/prisma';
-import { organizationSchema } from '@/lib/validators/organizaton';
+import { organizationSchema } from '@/lib/validators/organization';
 import { revalidatePath } from 'next/cache';
 
 export default async function updateOrganizationAction(

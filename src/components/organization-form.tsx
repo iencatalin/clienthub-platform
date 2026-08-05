@@ -13,7 +13,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   OrganizationFormValues,
   organizationSchema,
-} from '@/lib/validators/organizaton';
+} from '@/lib/validators/organization';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Organization } from '@prisma/client';
 import { Button } from './ui/button';

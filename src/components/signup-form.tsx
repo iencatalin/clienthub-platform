@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { signUpSchema, type SignUpFormValues } from '@/lib/validators/sign-up';
@@ -23,6 +23,14 @@ import { Checkbox } from './ui/checkbox';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import PasswordStrength from './password-strength';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from '@/components/ui/field';
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +43,9 @@ export default function SignUpForm() {
       password: '',
       confirmPassword: '',
       organizationName: '',
+      organizationType: 'INDIVIDUAL',
+      cui: '',
+      regCom: '',
     },
   });
 
@@ -51,6 +62,11 @@ export default function SignUpForm() {
       return;
     }
   };
+
+  const organizationType = useWatch({
+    control: form.control,
+    name: 'organizationType',
+  });
 
   return (
     <div className='space-y-4'>
@@ -104,6 +120,93 @@ export default function SignUpForm() {
               )}
             />
           </div>
+          <FormField
+            control={form.control}
+            name='organizationType'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-slate-700/90 text-sm'>
+                  Organization Type
+                </FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    className='w-full flex justify-between'
+                  >
+                    <FieldLabel htmlFor='individual'>
+                      <Field
+                        orientation='horizontal'
+                        className='bg-slate-100/80 ring-1 ring-slate-300/80 rounded-md'
+                      >
+                        <FieldContent>
+                          <FieldTitle>Individual / PFA</FieldTitle>
+                          <FieldDescription>
+                            For individuals and freelancher
+                          </FieldDescription>
+                        </FieldContent>
+                        <RadioGroupItem value='INDIVIDUAL' id='individual' />
+                      </Field>
+                    </FieldLabel>
+                    <FieldLabel htmlFor='company'>
+                      <Field
+                        className='bg-slate-100/80 ring-1 ring-slate-300/80 overflow-hidden rounded-md'
+                        orientation='horizontal'
+                      >
+                        <FieldContent>
+                          <FieldTitle>Company / SRL</FieldTitle>
+                          <FieldDescription>
+                            Registered legal entity
+                          </FieldDescription>
+                        </FieldContent>
+                        <RadioGroupItem value='COMPANY' id='company' />
+                      </Field>
+                    </FieldLabel>
+                  </RadioGroup>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {organizationType === 'COMPANY' && (
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
+              <FormField
+                control={form.control}
+                name='cui'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='text-slate-700/90 text-sm'>
+                      CUI / Tax ID
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className='bg-slate-100/80 ring-1 ring-slate-300/80 w-full'
+                        placeholder='RO12345678'
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='regCom'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='text-slate-700/90 text-sm'>
+                      Reg. Com.
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        className='bg-slate-100/80 ring-1 ring-slate-300/80 w-full'
+                        placeholder='J40/1234/2020'
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
 
           <FormField
             control={form.control}
@@ -122,9 +225,6 @@ export default function SignUpForm() {
                   />
                 </FormControl>
                 <FormMessage />
-                <small className='text-xs text-muted-foreground'>
-                  We`ll send a confirmation to this address
-                </small>
               </FormItem>
             )}
           />

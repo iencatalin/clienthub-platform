@@ -32,7 +32,7 @@ This is a portfolio project built to demonstrate full-stack development skills w
 
 ## Built With
 
-- **Next.js 14+** — App Router, Server Components, Server Actions
+- **Next.js 16+** — App Router, Server Components, Server Actions
 - **TypeScript** — Strict type safety throughout
 - **PostgreSQL + Prisma** — Database and ORM
 - **Better Auth** — Authentication
