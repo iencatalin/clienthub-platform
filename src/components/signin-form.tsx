@@ -35,34 +35,26 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (values: SignInFormValues) => {
-    try {
-      setIsLoading(true);
-      await authClient.signIn.email(
-        {
-          email: values.email,
-          password: values.password,
-        },
-        {
-          onSuccess: () => {
-            router.push('/dashboard');
-          },
-          onError: (ctx) => {
-            toast.error(ctx.error.message);
-          },
-        },
-      );
-    } catch (error) {
-      console.error({ error });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setIsLoading(true);
 
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, 2000);
-  });
+    await authClient.signIn.email(
+      {
+        email: values.email,
+        password: values.password,
+      },
+      {
+        onSuccess: () => {
+          router.replace('/dashboard');
+        },
+        onError: (ctx) => {
+          toast.error(ctx.error.message ?? 'Invalid credentials');
+          setIsLoading(false);
+        },
+      },
+    );
+
+    setIsLoading(false);
+  };
 
   return (
     <div className='space-y-4'>
