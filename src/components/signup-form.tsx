@@ -21,7 +21,7 @@ import { Button } from './ui/button';
 import { Spinner } from './ui/spinner';
 import { Checkbox } from './ui/checkbox';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, EyeIcon, EyeOffIcon } from 'lucide-react';
 import PasswordStrength from './password-strength';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import {
@@ -34,6 +34,8 @@ import {
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -238,12 +240,26 @@ export default function SignUpForm() {
                   Password
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
-                    {...field}
-                    className='bg-slate-100/80 ring-1 ring-slate-300/80'
-                    placeholder='Enter your password'
-                  />
+                  <div className='relative'>
+                    <Input
+                      className='bg-slate-100/80 ring-1 ring-slate-300/80 '
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder='Enter your password'
+                      {...field}
+                    />
+
+                    <button
+                      type='button'
+                      className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700'
+                      onClick={() => setShowPassword(!showPassword)}
+                    >
+                      {showPassword ? (
+                        <EyeOffIcon className='size-4' />
+                      ) : (
+                        <EyeIcon className='size-4' />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <PasswordStrength password={field.value} />
                 <FormMessage />
@@ -260,12 +276,28 @@ export default function SignUpForm() {
                   Confirm Password
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type='password'
-                    {...field}
-                    className='bg-slate-100/80 ring-1 ring-slate-300/80'
-                    placeholder='Confirm your password'
-                  />
+                  <div className='relative'>
+                    <Input
+                      className='bg-slate-100/80 ring-1 ring-slate-300/80 '
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder='Confirm your password'
+                      {...field}
+                    />
+
+                    <button
+                      type='button'
+                      className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700'
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOffIcon className='size-4' />
+                      ) : (
+                        <EyeIcon className='size-4' />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

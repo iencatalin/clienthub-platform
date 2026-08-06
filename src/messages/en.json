@@ -178,9 +178,31 @@
   "tickets": {
     "title": "Tickets",
     "newTicket": "New Ticket",
+    "recentTickets": "Recent Tickets",
+    "ticketOverview": "Ticket Overview",
+    "ticketDistribution": "Ticket Distribution",
+    "ticketsByStatus": "Tickets by Status",
+    "ticketsBySource": "Tickets by Source",
+    "ticketsOverTime": "Tickets Over Time",
+    "viewAll": "View All",
     "subject": "Subject",
     "status": "Status",
     "priority": "Priority",
-    "source": "Source"
+    "source": "Source",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "lastMessage": "Last Message",
+    "assignedTo": "Assigned To",
+    "unassigned": "Unassigned",
+    "messages": "Messages",
+    "conversation": "Conversation",
+    "details": "Ticket Details",
+    "reply": "Reply",
+    "sendReply": "Send Reply",
+    "internalNotes": "Internal Notes",
+    "tags": "Tags",
+    "noTags": "No tags yet.",
+    "noInternalNotes": "No internal notes yet.",
+    "client": "Client"
   }
 }

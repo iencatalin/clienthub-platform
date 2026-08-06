@@ -1,15 +1,16 @@
 'use client';
 
-import { BellIcon, PlusIcon, SearchIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import { SidebarTrigger } from './ui/sidebar';
 import { Separator } from '@/components/ui/separator';
 import { authClient } from '@/lib/auth-client';
 import { getGreeting } from '@/utils/get-greeting';
 
 import formatToday from '@/utils/format-date';
-import { Button } from './ui/button';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { LanguageSwitcher } from './language-switcher';
 
 export function DashboardHeader() {
   const { data: session } = authClient.useSession();
@@ -33,14 +34,6 @@ export function DashboardHeader() {
         </h2>
       </div>
       <div className='ml-auto flex items-center gap-2 pr-1 md:pr-4'>
-        <Button variant='outline' className='bg-white flex items-center'>
-          <SearchIcon className='size-4' />
-        </Button>
-
-        <Button variant='outline' className='bg-white flex items-center'>
-          <BellIcon className='size-4' />
-        </Button>
-
         {showButton && (
           <Link
             href='/tickets/new'
@@ -50,6 +43,7 @@ export function DashboardHeader() {
             <span>New Ticket</span>
           </Link>
         )}
+        <LanguageSwitcher />
       </div>
     </header>
   );

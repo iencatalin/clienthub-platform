@@ -178,9 +178,31 @@
   "tickets": {
     "title": "Tickete",
     "newTicket": "Ticket nou",
+    "recentTickets": "Tickete recente",
+    "ticketOverview": "Prezentare generală",
+    "ticketDistribution": "Distribuția tichetelor",
+    "ticketsByStatus": "Tickete după status",
+    "ticketsBySource": "Tickete după sursă",
+    "ticketsOverTime": "Evoluția tichetelor",
+    "viewAll": "Vezi toate",
     "subject": "Subiect",
     "status": "Status",
     "priority": "Prioritate",
-    "source": "Sursă"
+    "source": "Sursă",
+    "createdAt": "Creat la",
+    "updatedAt": "Actualizat la",
+    "lastMessage": "Ultimul mesaj",
+    "assignedTo": "Asignat către",
+    "unassigned": "Neasignat",
+    "messages": "Mesaje",
+    "conversation": "Conversație",
+    "details": "Detalii ticket",
+    "reply": "Răspunde",
+    "sendReply": "Trimite răspuns",
+    "internalNotes": "Note interne",
+    "tags": "Etichete",
+    "noTags": "Nu există etichete.",
+    "noInternalNotes": "Nu există note interne.",
+    "client": "Client"
   }
 }

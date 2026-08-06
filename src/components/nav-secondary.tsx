@@ -9,6 +9,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { ChevronRight, LucideIcon } from 'lucide-react';
 import {
@@ -32,6 +33,7 @@ export function NavSecondary({
     }[];
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+  const { setOpenMobile } = useSidebar();
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
@@ -51,7 +53,10 @@ export function NavSecondary({
                     {item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild>
-                          <Link href={subItem.url}>
+                          <Link
+                            href={subItem.url}
+                            onClick={() => setOpenMobile(false)}
+                          >
                             <span>{subItem.title}</span>
                           </Link>
                         </SidebarMenuSubButton>

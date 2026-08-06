@@ -7,6 +7,7 @@ import {
   LucideIcon,
   Ticket,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 type CardConfig = {
   label: string;
@@ -30,9 +31,10 @@ export default function TicketsStatusCard({
   inProgress,
   closed,
 }: Props) {
+  const t = useTranslations();
   const cards: CardConfig[] = [
     {
-      label: 'Total tickets',
+      label: t('dashboard.totalTickets'),
       colorClass: 'bg-purple-500',
       iconColorClass: 'text-purple-400 bg-purple-200/50',
       icon: Ticket,
@@ -40,7 +42,7 @@ export default function TicketsStatusCard({
       countColorClass: 'text-purple-400',
     },
     {
-      label: 'Deschise',
+      label: t('dashboard.open'),
       colorClass: 'bg-amber-500',
       iconColorClass: 'text-amber-700 bg-amber-200/50',
       icon: FolderOpen,
@@ -48,7 +50,7 @@ export default function TicketsStatusCard({
       countColorClass: 'text-amber-700',
     },
     {
-      label: 'In progres',
+      label: t('dashboard.inProgress'),
       colorClass: 'bg-blue-500',
       iconColorClass: 'text-blue-700 bg-blue-200/50',
       icon: List,
@@ -56,7 +58,7 @@ export default function TicketsStatusCard({
       countColorClass: 'text-blue-700',
     },
     {
-      label: 'Inchise',
+      label: t('dashboard.closed'),
       colorClass: 'bg-green-500',
       iconColorClass: 'text-green-700 bg-green-200/50',
       icon: CheckCircle,

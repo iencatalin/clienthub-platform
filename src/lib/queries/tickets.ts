@@ -20,6 +20,7 @@ export async function getRecentTickets(organizationId: string) {
       status: true,
       priority: true,
       source: true,
+      createdAt: true,
       contact: {
         select: { name: true, email: true, phone: true },
       },

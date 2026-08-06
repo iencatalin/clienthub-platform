@@ -9,6 +9,7 @@ import Link from 'next/link';
 
 import { TicketsPieChart } from '@/components/dashboard/pie-chart';
 import { getDashboardStats, getTicketStats } from '@/lib/queries/dashboard';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardPage() {
   const { orgUser } = await getOrgUser();
@@ -38,6 +39,8 @@ export default async function DashboardPage() {
     },
   ];
 
+  const t = await getTranslations();
+
   return (
     <div className='pt-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5'>
@@ -47,13 +50,13 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader className='flex items-center justify-between'>
             <CardTitle className='text-slate-800 text-sm font-medium'>
-              Tickete recente
+              {t('tickets.recentTickets')}
             </CardTitle>
             <Link
               href='/tickets'
               className='text-sm text-blue-500 font-semibold flex items-center gap-1'
             >
-              Vezi toate
+              {t('tickets.viewAll')}
               <ArrowRight className='h-4 w-4 pt-1' />
             </Link>
           </CardHeader>
@@ -64,7 +67,7 @@ export default async function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className='text-slate-800 text-sm font-medium'>
-              Ticket Status Overview
+              {t('tickets.ticketsByStatus')}
             </CardTitle>
           </CardHeader>
           <CardContent>
