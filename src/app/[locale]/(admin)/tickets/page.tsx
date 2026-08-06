@@ -4,7 +4,6 @@ import TicketPriorityBadge from '@/components/ticket-priority-badge';
 import TicketSourceBadge from '@/components/ticket-source-badge';
 import TicketStatusBadge from '@/components/ticket-status-badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -47,7 +46,7 @@ export default async function Tickets({ searchParams }: Props) {
 
   return (
     <>
-      <div className='flex justify-between items-center'>
+      <div className='flex flex-col md:flex-row gap-4 justify-between items-start md:items-center'>
         <div>
           <h1 className='text-2xl font-bold pt-6'>Tickets</h1>
 
@@ -57,19 +56,14 @@ export default async function Tickets({ searchParams }: Props) {
             </p>
           )}
           <TicketFilter counts={counts} />
+          <div className='flex items-center gap-4 pt-10'>
+            <TicketSourceFilter />
+            <TicketPriorityFilter />
+          </div>
         </div>
         <div className='pr-8'>
           <SimulateMessageBtn />
         </div>
-      </div>
-      <div className='flex items-center gap-4 pt-10'>
-        <Input
-          type='search'
-          className='max-w-lg bg-slate-50 text-slate-900 text-sm font-normal hover:ring-1 ring-indigo-500/90 transition'
-          placeholder='Search tickets...'
-        />
-        <TicketSourceFilter />
-        <TicketPriorityFilter />
       </div>
 
       <Card className='mt-6'>

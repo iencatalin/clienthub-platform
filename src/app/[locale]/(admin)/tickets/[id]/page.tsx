@@ -49,7 +49,7 @@ export default async function TicketPage({ params }: Props) {
       <div className='flex justify-between items-center gap-4 pt-6'>
         <div className='flex flex-col gap-4'>
           <p className='text-slate-700/90 text-sm'>
-            Ticket #{ticket.id.slice(0, 5).toUpperCase()}
+            Ticket #{ticket.ticketNumber}
           </p>
           <h1 className='text-2xl font-bold'>{ticket.subject}</h1>
           <div className='flex items-center gap-2 mt-1'>
@@ -75,12 +75,17 @@ export default async function TicketPage({ params }: Props) {
         />
       </div>
       <div className='grid grid-cols-1 md:grid-cols-4 gap-4 mt-6'>
-        <Card className='col-span-3'>
+        <Card className='col-span-3 h-4/5'>
           <CardHeader>
             <CardTitle>Messages</CardTitle>
           </CardHeader>
-          <CardContent>
-            <Conversation source={ticket.source} messages={ticket.messages} />
+          <CardContent className='flex-1 flex flex-col justify-between overflow-hidden'>
+            <Conversation
+              ticketId={ticket.id}
+              source={ticket.source}
+              messages={ticket.messages}
+              currentStatus={ticket.status}
+            />
           </CardContent>
         </Card>
         <div className='flex flex-col gap-4'>

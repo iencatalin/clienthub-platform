@@ -20,7 +20,7 @@ export default function MessageBubble({ message }: Props) {
         <p>{message.body}</p>
 
         <time className='mt-2 block text-xs opacity-70'>
-          {message.createdAt.toLocaleString('ro-RO')}
+          {new Date(message.createdAt).toLocaleString('ro-RO')}
         </time>
       </div>
     </div>
