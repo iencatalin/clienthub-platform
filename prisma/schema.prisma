@@ -88,6 +88,7 @@ model EmailAddress {
 
 model Contact {
   id             String @id @default(uuid())
+  contactNumber  Int    @default(autoincrement())
   organizationId String
 
   phone String?

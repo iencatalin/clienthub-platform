@@ -7,6 +7,7 @@ import TicketStatusBadge from '@/components/ticket-status-badge';
 import TicketPriorityBadge from '@/components/ticket-priority-badge';
 import Link from 'next/link';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { getTicketTitle } from '@/utils/get-ticket-title';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -23,10 +24,23 @@ export default async function ClientPage({ params }: Props) {
   if (!orgUser) return <div>Organization not found</div>;
 
   const contact = await prisma.contact.findFirst({
-    where: { id, organizationId: orgUser.organizationId },
+    where: {
+      id,
+      organizationId: orgUser.organizationId,
+    },
     include: {
       tickets: {
-        orderBy: { createdAt: 'desc' },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        include: {
+          messages: {
+            orderBy: {
+              createdAt: 'asc',
+            },
+            take: 1,
+          },
+        },
       },
     },
   });
@@ -43,7 +57,7 @@ export default async function ClientPage({ params }: Props) {
 
   return (
     <>
-      <div className='flex items-center justify-between pt-6 pb-4'>
+      <div className='flex items-center justify-between my-6'>
         <div className='flex items-center gap-4'>
           <Avatar className='w-12  h-12'>
             <AvatarFallback className='bg-linear-to-br from-indigo-500 to-violet-500 text-neutral-50 text-lg font-semibold'>
@@ -54,7 +68,7 @@ export default async function ClientPage({ params }: Props) {
             <h1 className='text-2xl font-bold'>{contact.name}</h1>
 
             <p className='text-sm text-muted-foreground/90'>
-              Client din
+              Client since
               <time className='ml-1' dateTime={contact.createdAt.toISOString()}>
                 {contact.createdAt.toLocaleDateString('ro-RO', {
                   month: 'long',
@@ -65,8 +79,30 @@ export default async function ClientPage({ params }: Props) {
           </div>
         </div>
       </div>
-
-      <Separator className='mb-6' />
+      <div className='flex items-center justify-between gap-4 max-w-5xl my-6'>
+        <Card className='w-sm p-0 rounded-sm'>
+          <CardContent className='p-4'>
+            <div className='font-bold text-3xl text-blue-600'>
+              {contact.tickets.length}
+            </div>
+            <div className='text-muted-foreground text-sm'>Total tickets</div>
+          </CardContent>
+        </Card>
+        <Card className='w-sm p-0 rounded-sm'>
+          <CardContent className='p-4'>
+            <div className='font-bold text-red-600 text-3xl'>{openTickets}</div>
+            <div className='text-muted-foreground text-sm'>Open</div>
+          </CardContent>
+        </Card>
+        <Card className='w-sm p-0 rounded-sm'>
+          <CardContent className='p-4'>
+            <div className='font-bold text-green-600 text-3xl'>
+              {closedTickets}
+            </div>
+            <div className='text-muted-foreground text-sm'>Closed</div>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className='grid grid-cols-1 md:grid-cols-4 gap-4'>
         <Card className='col-span-3'>
@@ -90,10 +126,10 @@ export default async function ClientPage({ params }: Props) {
                     className='flex items-center gap-3 py-3 hover:bg-slate-50 px-2 rounded-lg transition'
                   >
                     <span className='text-xs text-muted-foreground font-mono min-w-15'>
-                      #{ticket.id.slice(0, 5).toUpperCase()}
+                      #{ticket.ticketNumber}
                     </span>
                     <span className='flex-1 text-sm font-medium truncate'>
-                      {ticket.subject ?? 'No subject'}
+                      {getTicketTitle(ticket)}
                     </span>
                     <TicketStatusBadge status={ticket.status} />
                     <TicketPriorityBadge priority={ticket.priority} />
@@ -114,7 +150,7 @@ export default async function ClientPage({ params }: Props) {
             </CardHeader>
             <Separator />
             <CardContent>
-              <dl className='grid grid-cols-2 gap-y-2 text-xs tracking-wide'>
+              <dl className='grid grid-cols-2 gap-8 text-xs tracking-wide'>
                 <dt className='text-muted-foreground font-medium'>Name</dt>
                 <dd>{contact.name ?? '-'}</dd>
 
@@ -123,29 +159,6 @@ export default async function ClientPage({ params }: Props) {
 
                 <dt className='text-muted-foreground font-medium'>Phone</dt>
                 <dd>{contact.phone ?? '-'}</dd>
-              </dl>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Stats</CardTitle>
-            </CardHeader>
-            <Separator />
-            <CardContent className='pt-4'>
-              <dl className='flex flex-col gap-3 text-sm'>
-                <div className='flex justify-between'>
-                  <dt className='text-muted-foreground'>Total tickets</dt>
-                  <dd className='font-bold'>{contact.tickets.length}</dd>
-                </div>
-                <div className='flex justify-between'>
-                  <dt className='text-muted-foreground'>Open</dt>
-                  <dd className='font-bold text-indigo-600'>{openTickets}</dd>
-                </div>
-                <div className='flex justify-between'>
-                  <dt className='text-muted-foreground'>Closed</dt>
-                  <dd className='font-bold text-green-600'>{closedTickets}</dd>
-                </div>
               </dl>
             </CardContent>
           </Card>

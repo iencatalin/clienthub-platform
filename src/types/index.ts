@@ -1,7 +1,7 @@
 export type { Message } from '@prisma/client';
-export { TicketSource } from '@prisma/client';
-export { TicketStatus } from '@prisma/client';
-export { TicketPriority } from '@prisma/client';
+export type { TicketSource } from '@prisma/client';
+export type { TicketStatus } from '@prisma/client';
+export type { TicketPriority } from '@prisma/client';
 
 export type Contact = {
   id: string;

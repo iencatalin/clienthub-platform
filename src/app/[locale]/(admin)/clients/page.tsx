@@ -1,11 +1,5 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -17,7 +11,7 @@ import {
 } from '@/components/ui/table';
 import { requireAuth } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
-import { ChevronDown, PlusIcon } from 'lucide-react';
+import { PlusIcon } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function ClientsPage() {
@@ -58,25 +52,12 @@ export default async function ClientsPage() {
           <span>New Client</span>
         </Link>
       </div>
-      <div className='flex items-center gap-4'>
+      <div className='flex items-center gap-4 mt-2  '>
         <Input
           type='search'
           className='max-w-lg bg-slate-50 text-slate-900 text-sm font-normal hover:ring-1 ring-indigo-500/90 transition'
           placeholder='Search by name, email, phone...'
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='secondary'>
-              Priority
-              <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <Card className='mt-6'>
         <CardContent>
@@ -98,16 +79,13 @@ export default async function ClientsPage() {
                 <TableHead className='text-muted-foreground text-sm'>
                   Tickets
                 </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Open
-                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {clients.map((client) => (
                 <TableRow key={client.id}>
                   <TableCell className='font-medium text-muted-foreground'>
-                    #{client.id.slice(0, 5).toUpperCase()}
+                    #{client.contactNumber}
                   </TableCell>
                   <TableCell className='font-medium'>
                     <Link
@@ -120,7 +98,6 @@ export default async function ClientsPage() {
                   <TableCell>{client.email}</TableCell>
                   <TableCell>{client.phone}</TableCell>
                   <TableCell>{client._count.tickets}</TableCell>
-                  <TableCell>{}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

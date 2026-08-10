@@ -138,17 +138,18 @@ export default async function TicketPage({ params }: Props) {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle>Tags</CardTitle>
-            </CardHeader>
-            <Separator className='text-slate-500' />
-            <CardContent></CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
               <CardTitle>Internal notes</CardTitle>
             </CardHeader>
             <Separator className='text-slate-500' />
-            <CardContent></CardContent>
+            <CardContent className='bg-slate-100/90 rounded-md p-2 mx-2'>
+              {ticket.internalNotes ? (
+                <p className='text-sm text-slate-700'>{ticket.internalNotes}</p>
+              ) : (
+                <p className='text-sm text-slate-700 italic'>
+                  No internal notes available.
+                </p>
+              )}
+            </CardContent>
           </Card>
         </div>
       </div>
