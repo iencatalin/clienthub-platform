@@ -39,6 +39,7 @@ export function SimulateMessageForm({ open, onClose }: Props) {
     resolver: zodResolver(createSimulateMessageSchema),
     defaultValues: {
       source: 'WHATSAPP',
+      name: '',
       phone: '',
       message: '',
     },
@@ -65,13 +66,14 @@ export function SimulateMessageForm({ open, onClose }: Props) {
         <DialogHeader>
           <DialogTitle>Simulate incoming message</DialogTitle>
           <DialogDescription>
-            This simulates a real WhatsApp or Email message coming in. A contact
+            This simulates an incoming WhatsApp message. A customer, contact,
             and ticket will be created automatically.
           </DialogDescription>
         </DialogHeader>
 
         <div className='bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-700'>
-          Demo mode — no real WhatsApp or Email needed.
+          Demo environment — simulate incoming WhatsApp messages without
+          connecting a real WhatsApp Business account.
         </div>
 
         <Form {...form}>
@@ -79,6 +81,23 @@ export function SimulateMessageForm({ open, onClose }: Props) {
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex flex-col gap-4'
           >
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Customer name</FormLabel>{' '}
+                  <FormControl>
+                    <Input
+                      className='bg-slate-50'
+                      placeholder='Ion Popescu'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name='phone'
@@ -106,7 +125,7 @@ export function SimulateMessageForm({ open, onClose }: Props) {
                   <FormControl>
                     <Textarea
                       className='bg-slate-50'
-                      placeholder='Bună ziua, am nevoie de...'
+                      placeholder='Message...'
                       rows={3}
                       {...field}
                     />

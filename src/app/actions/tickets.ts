@@ -1,6 +1,7 @@
 'use server';
 
 import { auth } from '@/lib/auth';
+import { requirePermission } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 import { createTicketManualSchema } from '@/lib/validators/ticket';
 import { revalidatePath } from 'next/cache';
@@ -21,13 +22,7 @@ export async function createTicketAction(values: unknown) {
     return { error: parsed.error.issues[0].message };
   }
 
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-  });
-
-  if (!orgUser) {
-    return { error: 'Organization not found' };
-  }
+  const { orgUser } = await requirePermission('tickets:create');
 
   try {
     await prisma.ticket.create({

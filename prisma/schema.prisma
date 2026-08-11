@@ -51,41 +51,6 @@ enum TicketPriority {
   HIGH
 }
 
-model WhatsAppNumber {
-  id             String @id @default(uuid())
-  organizationId String
-  phoneNumber    String
-  providerId     String
-
-  isActive Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  organization Organization @relation(fields: [organizationId], references: [id])
-  tickets      Ticket[]
-
-  @@unique([phoneNumber])
-  @@map("whatsapp_numbers")
-}
-
-model EmailAddress {
-  id             String   @id @default(uuid())
-  organizationId String
-  email          String
-  provider       String
-  config         Json
-  isActive       Boolean  @default(true)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  organization Organization @relation(fields: [organizationId], references: [id])
-  tickets      Ticket[]
-
-  @@unique([email])
-  @@map("email_addresses")
-}
-
 model Contact {
   id             String @id @default(uuid())
   contactNumber  Int    @default(autoincrement())
@@ -123,13 +88,11 @@ model Ticket {
   createdAt        DateTime       @default(now())
   updatedAt        DateTime       @updatedAt
 
-  organization   Organization    @relation(fields: [organizationId], references: [id])
-  contact        Contact         @relation(fields: [contactId], references: [id])
-  assignedTo     User?           @relation(fields: [assignedToId], references: [id])
-  whatsappNumber WhatsAppNumber? @relation(fields: [whatsappNumberId], references: [id])
-  emailAddress   EmailAddress?   @relation(fields: [emailAddressId], references: [id])
-  messages       Message[]
-  ticketTags     TicketTag[]
+  organization Organization @relation(fields: [organizationId], references: [id])
+  contact      Contact      @relation(fields: [contactId], references: [id])
+  assignedTo   User?        @relation(fields: [assignedToId], references: [id])
+  messages     Message[]
+  ticketTags   TicketTag[]
 
   @@index([status])
   @@index([organizationId])
@@ -172,28 +135,12 @@ model Message {
   metadata     Json?
   createdAt    DateTime         @default(now())
 
-  ticket      Ticket       @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  sentBy      User?        @relation(fields: [sentByUserId], references: [id])
-  attachments Attachment[]
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  sentBy User?  @relation(fields: [sentByUserId], references: [id])
 
   @@index([ticketId])
   @@index([externalId])
   @@map("messages")
-}
-
-model Attachment {
-  id        String @id @default(uuid())
-  messageId String
-
-  url       String
-  mimeType  String?
-  fileName  String?
-  fileSize  Int?
-  createdAt DateTime @default(now())
-
-  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
-
-  @@map("attachments")
 }
 
 model Organization {
@@ -207,12 +154,10 @@ model Organization {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users          OrganizationUser[]
-  contacts       Contact[]
-  tickets        Ticket[]
-  numbers        WhatsAppNumber[]
-  emailAddresses EmailAddress[]
-  tags           Tag[]
+  users    OrganizationUser[]
+  contacts Contact[]
+  tickets  Ticket[]
+  tags     Tag[]
 
   @@map("organizations")
 }
@@ -226,7 +171,7 @@ model OrganizationUser {
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, organizationId])
+  @@unique([userId])
   @@map("organization_users")
 }
 

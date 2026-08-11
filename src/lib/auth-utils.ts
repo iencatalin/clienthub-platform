@@ -1,7 +1,61 @@
 import { headers } from 'next/headers';
-import { auth } from './auth';
 import { redirect } from 'next/navigation';
+import { OrganizationRole } from '@prisma/client';
+
+import { auth } from './auth';
 import { prisma } from '@/lib/prisma';
+
+export type Permission =
+  | 'tickets:read'
+  | 'tickets:create'
+  | 'tickets:update'
+  | 'tickets:close'
+  | 'tickets:assign'
+  | 'clients:read'
+  | 'clients:create'
+  | 'clients:update'
+  | 'members:read'
+  | 'members:manage'
+  | 'organization:update';
+
+const rolePermissions: Record<OrganizationRole, readonly Permission[]> = {
+  OWNER: [
+    'tickets:read',
+    'tickets:create',
+    'tickets:update',
+    'tickets:close',
+    'tickets:assign',
+    'clients:read',
+    'clients:create',
+    'clients:update',
+    'members:read',
+    'members:manage',
+    'organization:update',
+  ],
+
+  ADMIN: [
+    'tickets:read',
+    'tickets:create',
+    'tickets:update',
+    'tickets:close',
+    'tickets:assign',
+    'clients:read',
+    'clients:create',
+    'clients:update',
+    'members:read',
+    'members:manage',
+  ],
+
+  AGENT: [
+    'tickets:read',
+    'tickets:create',
+    'tickets:update',
+    'tickets:close',
+    'clients:read',
+    'clients:create',
+    'clients:update',
+  ],
+};
 
 async function getAuthSession() {
   return auth.api.getSession({
@@ -15,6 +69,7 @@ export const requireAuth = async () => {
   if (!session) {
     redirect('/sign-in');
   }
+
   return session;
 };
 
@@ -24,18 +79,46 @@ export const requireNoAuth = async () => {
   if (session) {
     redirect('/dashboard');
   }
+
   return session;
 };
 
 export const getOrgUser = async () => {
   const session = await requireAuth();
 
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-    select: { organizationId: true },
+  const orgUser = await prisma.organizationUser.findUnique({
+    where: {
+      userId: session.user.id,
+    },
+    select: {
+      organizationId: true,
+      role: true,
+    },
   });
 
-  if (!orgUser) redirect('/sign-in');
+  if (!orgUser) {
+    throw new Error(
+      'Authenticated user is not associated with an organization',
+    );
+  }
 
-  return { session, orgUser };
+  return {
+    session,
+    orgUser,
+  };
+};
+
+export const requirePermission = async (permission: Permission) => {
+  const { session, orgUser } = await getOrgUser();
+
+  const permissions = rolePermissions[orgUser.role];
+
+  if (!permissions.includes(permission)) {
+    throw new Error('Forbidden');
+  }
+
+  return {
+    session,
+    orgUser,
+  };
 };

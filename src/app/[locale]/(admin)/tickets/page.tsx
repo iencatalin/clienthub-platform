@@ -1,4 +1,3 @@
-import { SimulateMessageBtn } from '@/components/simulate-message-btn';
 import TicketFilter from '@/components/ticket-filters';
 import TicketPriorityBadge from '@/components/ticket-priority-badge';
 import TicketSourceBadge from '@/components/ticket-source-badge';
@@ -12,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { getOrgUser } from '@/lib/auth-utils';
+import { requirePermission } from '@/lib/auth-utils';
 
 import { getAllTickets, getTicketCounts } from '@/lib/queries/tickets';
 import { getTicketTitle } from '@/utils/get-ticket-title';
@@ -31,7 +30,7 @@ type Props = {
 };
 
 export default async function Tickets({ searchParams }: Props) {
-  const { orgUser } = await getOrgUser();
+  const { orgUser } = await requirePermission('tickets:read');
 
   const params = await searchParams;
 
@@ -60,9 +59,6 @@ export default async function Tickets({ searchParams }: Props) {
             <TicketSourceFilter />
             <TicketPriorityFilter />
           </div>
-        </div>
-        <div className='pr-8'>
-          <SimulateMessageBtn />
         </div>
       </div>
 

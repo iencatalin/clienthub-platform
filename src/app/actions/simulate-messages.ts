@@ -1,79 +1,119 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
-import { requireAuth } from '@/lib/auth-utils';
 import { revalidatePath } from 'next/cache';
 
-export async function simulateMessageAction(values: {
-  phone?: string;
-  message: string;
-  source: 'WHATSAPP';
-}) {
-  const session = await requireAuth();
+import { prisma } from '@/lib/prisma';
+import { requireAuth } from '@/lib/auth-utils';
+import { createSimulateMessageSchema } from '@/lib/validators/simulate-message';
 
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-    select: { organizationId: true },
-  });
+export async function simulateMessageAction(values: unknown) {
+  try {
+    const session = await requireAuth();
 
-  if (!orgUser) return { error: 'Organization not found' };
+    const parsed = createSimulateMessageSchema.safeParse(values);
 
-  const { phone, message, source } = values;
+    if (!parsed.success) {
+      return {
+        error: parsed.error.issues[0]?.message ?? 'Invalid input',
+      };
+    }
 
-  let contact = await prisma.contact.findFirst({
-    where: {
-      organizationId: orgUser.organizationId,
-      OR: [...(phone ? [{ phone }] : [])],
-    },
-  });
+    const { name, phone, message, source } = parsed.data;
 
-  if (!contact) {
-    contact = await prisma.contact.create({
-      data: {
-        organizationId: orgUser.organizationId,
-        phone: phone ?? null,
-        name: phone,
+    const orgUser = await prisma.organizationUser.findUnique({
+      where: {
+        userId: session.user.id,
+      },
+      select: {
+        organizationId: true,
       },
     });
-  }
 
-  let ticket = await prisma.ticket.findFirst({
-    where: {
-      organizationId: orgUser.organizationId,
-      contactId: contact.id,
-      status: { not: 'CLOSED' },
-    },
-    orderBy: { createdAt: 'desc' },
-  });
+    if (!orgUser) {
+      return {
+        error: 'Organization not found',
+      };
+    }
 
-  if (!ticket) {
-    ticket = await prisma.ticket.create({
-      data: {
+    let contact = await prisma.contact.findUnique({
+      where: {
+        organizationId_phone: {
+          organizationId: orgUser.organizationId,
+          phone,
+        },
+      },
+    });
+
+    if (!contact) {
+      contact = await prisma.contact.create({
+        data: {
+          organizationId: orgUser.organizationId,
+          name,
+          phone,
+        },
+      });
+    }
+
+    let ticket = await prisma.ticket.findFirst({
+      where: {
         organizationId: orgUser.organizationId,
         contactId: contact.id,
         source,
-        status: 'NEW',
-        priority: 'MEDIUM',
-        lastMessageAt: new Date(),
+        status: {
+          not: 'CLOSED',
+        },
+      },
+      orderBy: {
+        lastMessageAt: 'desc',
       },
     });
-  }
 
-  await prisma.message.create({
-    data: {
+    if (!ticket) {
+      ticket = await prisma.ticket.create({
+        data: {
+          organizationId: orgUser.organizationId,
+          contactId: contact.id,
+          source,
+          status: 'NEW',
+          priority: 'MEDIUM',
+          lastMessageAt: new Date(),
+        },
+      });
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.message.create({
+        data: {
+          ticketId: ticket.id,
+          direction: 'INBOUND',
+          body: message,
+          status: 'DELIVERED',
+          externalId: crypto.randomUUID(),
+        },
+      });
+
+      await tx.ticket.update({
+        where: {
+          id: ticket.id,
+        },
+        data: {
+          lastMessageAt: new Date(),
+        },
+      });
+    });
+
+    revalidatePath('/tickets');
+    revalidatePath(`/tickets/${ticket.id}`);
+
+    return {
+      success: true,
       ticketId: ticket.id,
-      direction: 'INBOUND',
-      body: message,
-      status: 'DELIVERED',
-    },
-  });
+    };
+  } catch (error) {
+    console.error('simulateMessageAction error:', error);
 
-  await prisma.ticket.update({
-    where: { id: ticket.id },
-    data: { lastMessageAt: new Date() },
-  });
-
-  revalidatePath('/tickets');
-
-  return { success: true, ticketId: ticket.id };
+    return {
+      error: 'Something went wrong',
+    };
+  }
 }
