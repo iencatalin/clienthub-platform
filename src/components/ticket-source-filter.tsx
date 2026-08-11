@@ -47,9 +47,6 @@ export default function TicketSourceFilter() {
         <DropdownMenuItem onClick={() => handleFilter('WHATSAPP')}>
           WHATSAPP
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleFilter('EMAIL')}>
-          EMAIL
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

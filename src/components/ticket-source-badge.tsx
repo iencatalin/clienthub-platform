@@ -13,10 +13,6 @@ const SOURCE_CONFIG: Record<
     label: 'Whatsapp',
     className: 'bg-green-100 text-green-700',
   },
-  EMAIL: {
-    label: 'Email',
-    className: 'bg-amber-50 text-amber-700',
-  },
   WEB: {
     label: 'Web',
     className: 'bg-purple-50 text-purple-700',
