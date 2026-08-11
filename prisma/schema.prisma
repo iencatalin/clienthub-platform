@@ -33,7 +33,6 @@ enum TicketStatus {
 
 enum TicketSource {
   WHATSAPP
-  EMAIL
   WEB
   PHONE
 }
@@ -72,21 +71,19 @@ model Contact {
 }
 
 model Ticket {
-  id               String         @id @default(uuid())
-  ticketNumber     Int            @default(autoincrement())
-  organizationId   String
-  contactId        String
-  whatsappNumberId String?
-  emailAddressId   String?
-  source           TicketSource   @default(WHATSAPP)
-  subject          String?
-  status           TicketStatus   @default(NEW)
-  priority         TicketPriority @default(MEDIUM)
-  assignedToId     String?
-  lastMessageAt    DateTime?
-  internalNotes    String?
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
+  id             String         @id @default(uuid())
+  ticketNumber   Int            @default(autoincrement())
+  organizationId String
+  contactId      String
+  source         TicketSource   @default(WHATSAPP)
+  subject        String?
+  status         TicketStatus   @default(NEW)
+  priority       TicketPriority @default(MEDIUM)
+  assignedToId   String?
+  lastMessageAt  DateTime?
+  internalNotes  String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
   contact      Contact      @relation(fields: [contactId], references: [id])

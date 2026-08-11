@@ -57,10 +57,6 @@ const data = {
           title: 'WhatsApp',
           url: '/settings/whatsapp',
         },
-        {
-          title: 'Email',
-          url: '/settings/email',
-        },
       ],
     },
   ],

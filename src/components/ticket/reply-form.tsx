@@ -13,7 +13,7 @@ type Props = {
   currentStatus: string;
 };
 
-export function ReplyForm({ ticketId, currentStatus }: Props) {
+export function ReplyForm({ ticketId }: Props) {
   const [body, setBody] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +21,7 @@ export function ReplyForm({ ticketId, currentStatus }: Props) {
     if (!body.trim()) return;
 
     setLoading(true);
-    const result = await sendReplyAction(ticketId, body, currentStatus);
+    const result = await sendReplyAction(ticketId, body);
 
     if (result?.error) {
       toast.error(result.error);
