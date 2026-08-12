@@ -60,7 +60,7 @@ export default async function DashboardPage() {
               <ArrowRight className='h-4 w-4 pt-1' />
             </Link>
           </CardHeader>
-          <CardContent>
+          <CardContent className='min-w-0 overflow-hidden'>
             <RecentTickets organizationId={organizationId} />
           </CardContent>
         </Card>

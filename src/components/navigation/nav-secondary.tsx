@@ -16,7 +16,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from './ui/collapsible';
+} from '../ui/collapsible';
 import Link from 'next/link';
 
 export function NavSecondary({

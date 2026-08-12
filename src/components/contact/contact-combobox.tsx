@@ -8,14 +8,14 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command';
-import { Button } from './ui/button';
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Button } from '../ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Check, ChevronDown, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
 import { Contact } from '@/types';
-import { Separator } from './ui/separator';
+import { Separator } from '../ui/separator';
 
 type Props = {
   contacts: Contact[];

@@ -7,28 +7,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './ui/form';
+} from '../ui/form';
 
 import {
   createTicketManualSchema,
   type CreateTicketFormValues,
 } from '@/lib/validators/ticket';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Textarea } from './ui/textarea';
+import { Textarea } from '../ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from './ui/select';
-import { ContactCombobox } from './contact-combobox';
+} from '../ui/select';
+import { ContactCombobox } from '../contact/contact-combobox';
 import { useState } from 'react';
-import { CreateContactModal } from './create-contact-modal';
+import { CreateContactModal } from '../contact/create-contact-modal';
 
 import { Contact } from '@/types';
-import { Separator } from './ui/separator';
-import { Button } from './ui/button';
+import { Separator } from '../ui/separator';
+import { Button } from '../ui/button';
 import {
   Card,
   CardContent,
@@ -36,7 +36,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from './ui/card';
+} from '../ui/card';
 import { createTicketAction } from '@/app/actions/tickets';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';

@@ -1,10 +1,10 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { Button } from './ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from './ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
-import { Input } from './ui/input';
+import { Button } from '../ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
+import { Input } from '../ui/input';
 import {
   CreateContactFormValues,
   createContactSchema,

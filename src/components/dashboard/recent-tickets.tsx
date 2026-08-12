@@ -1,6 +1,6 @@
 import { Table, TableBody, TableCell, TableRow } from '../ui/table';
-import TicketStatusBadge from '../ticket-status-badge';
-import TicketPriorityBadge from '../ticket-priority-badge';
+import TicketStatusBadge from '../ticket/ticket-status-badge';
+import TicketPriorityBadge from '../ticket/ticket-priority-badge';
 import Link from 'next/link';
 import { getRecentTickets } from '@/lib/queries/tickets';
 import { getTicketTitle } from '@/utils/get-ticket-title';

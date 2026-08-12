@@ -1,7 +1,7 @@
-import TicketFilter from '@/components/ticket-filters';
-import TicketPriorityBadge from '@/components/ticket-priority-badge';
-import TicketSourceBadge from '@/components/ticket-source-badge';
-import TicketStatusBadge from '@/components/ticket-status-badge';
+import TicketFilter from '@/components/ticket/ticket-filters';
+import TicketPriorityBadge from '@/components/ticket/ticket-priority-badge';
+import TicketSourceBadge from '@/components/ticket/ticket-source-badge';
+import TicketStatusBadge from '@/components/ticket/ticket-status-badge';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Table,
@@ -17,8 +17,8 @@ import { getAllTickets, getTicketCounts } from '@/lib/queries/tickets';
 import { getTicketTitle } from '@/utils/get-ticket-title';
 import Link from 'next/link';
 import { TicketPriority, TicketSource, TicketStatus } from '@/types';
-import TicketSourceFilter from '@/components/ticket-source-filter';
-import TicketPriorityFilter from '@/components/ticket-priority-filter';
+import TicketSourceFilter from '@/components/ticket/ticket-source-filter';
+import TicketPriorityFilter from '@/components/ticket/ticket-priority-filter';
 
 type Props = {
   searchParams: Promise<{
@@ -62,73 +62,106 @@ export default async function Tickets({ searchParams }: Props) {
         </div>
       </div>
 
-      <Card className='mt-6'>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className='text-muted-foreground text-sm'>
-                  #
-                </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Subject
-                </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Status
-                </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Priority
-                </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Source
-                </TableHead>
-                <TableHead className='text-muted-foreground text-sm'>
-                  Date
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {tickets.length === 0 ? (
+      <Card className='mt-6 overflow-hidden'>
+        <CardContent className='p-0'>
+          <div className='hidden md:block overflow-x-auto'>
+            <Table>
+              <TableHeader>
                 <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className='text-center py-10 text-muted-foreground'
-                  >
-                    No tickets found
-                  </TableCell>
+                  <TableHead>#</TableHead>
+                  <TableHead>Subject</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Priority</TableHead>
+                  <TableHead>Source</TableHead>
+                  <TableHead>Date</TableHead>
                 </TableRow>
-              ) : (
-                tickets.map((ticket) => (
-                  <TableRow key={ticket.id}>
-                    <TableCell className='font-medium text-muted-foreground'>
-                      #{ticket.ticketNumber}
-                    </TableCell>
-                    <TableCell className='font-medium'>
-                      <Link
-                        href={`/tickets/${ticket.id}`}
-                        className='hover:underline'
-                      >
-                        {getTicketTitle(ticket)}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <TicketStatusBadge status={ticket.status} />
-                    </TableCell>
-                    <TableCell>
-                      <TicketPriorityBadge priority={ticket.priority} />
-                    </TableCell>
-                    <TableCell>
-                      <TicketSourceBadge source={ticket.source} />
-                    </TableCell>
+              </TableHeader>
 
-                    <TableCell>
-                      {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+              <TableBody>
+                {tickets.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={6}
+                      className='py-10 text-center text-muted-foreground'
+                    >
+                      No tickets found
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+                ) : (
+                  tickets.map((ticket) => (
+                    <TableRow key={ticket.id}>
+                      <TableCell className='font-medium text-muted-foreground'>
+                        #{ticket.ticketNumber}
+                      </TableCell>
+
+                      <TableCell className='max-w-75 font-medium'>
+                        <Link
+                          href={`/tickets/${ticket.id}`}
+                          className='block truncate hover:underline'
+                        >
+                          {getTicketTitle(ticket)}
+                        </Link>
+                      </TableCell>
+
+                      <TableCell>
+                        <TicketStatusBadge status={ticket.status} />
+                      </TableCell>
+
+                      <TableCell>
+                        <TicketPriorityBadge priority={ticket.priority} />
+                      </TableCell>
+
+                      <TableCell>
+                        <TicketSourceBadge source={ticket.source} />
+                      </TableCell>
+
+                      <TableCell className='whitespace-nowrap'>
+                        {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+
+          <div className='divide-y md:hidden'>
+            {tickets.length === 0 ? (
+              <div className='py-10 text-center text-sm text-muted-foreground'>
+                No tickets found
+              </div>
+            ) : (
+              tickets.map((ticket) => (
+                <Link
+                  key={ticket.id}
+                  href={`/tickets/${ticket.id}`}
+                  className='block p-4'
+                >
+                  <div className='flex items-start justify-between gap-3'>
+                    <div className='min-w-0'>
+                      <p className='text-xs font-medium text-muted-foreground'>
+                        #{ticket.ticketNumber}
+                      </p>
+
+                      <p className='mt-1 truncate text-sm font-semibold text-slate-900'>
+                        {getTicketTitle(ticket)}
+                      </p>
+                    </div>
+
+                    <span className='shrink-0 text-xs text-muted-foreground'>
+                      {new Date(ticket.createdAt).toLocaleDateString('ro-RO')}
+                    </span>
+                  </div>
+
+                  <div className='mt-3 flex flex-wrap items-center gap-2'>
+                    <TicketStatusBadge status={ticket.status} />
+                    <TicketPriorityBadge priority={ticket.priority} />
+                    <TicketSourceBadge source={ticket.source} />
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
         </CardContent>
       </Card>
     </>

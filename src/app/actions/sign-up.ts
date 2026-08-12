@@ -38,7 +38,7 @@ export async function signUpAction(values: unknown) {
         data: {
           userId: user.id,
           organizationId: organization.id,
-          role: 'ADMIN',
+          role: 'OWNER',
         },
       });
     });

@@ -15,7 +15,6 @@ import {
   closeTicketAction,
 } from '@/app/actions/ticket';
 import { toast } from 'sonner';
-import { UserIcon } from 'lucide-react';
 
 type Props = {
   ticketId: string;
@@ -30,10 +29,7 @@ export function TicketActions({ ticketId, status }: Props) {
   };
 
   return (
-    <div className='flex gap-2'>
-      <Button className='bg-neutral-50 text-slate-800 hover:bg-neutral-100'>
-        <UserIcon className='w-4 h-4' /> Assign
-      </Button>
+    <div>
       {status !== 'CLOSED' && (
         <Button
           onClick={handleClose}

@@ -16,9 +16,9 @@ import {
   Users2,
 } from 'lucide-react';
 
-import { NavMain } from './nav-main';
-import { NavSecondary } from './nav-secondary';
-import { NavUser } from './nav-user';
+import { NavMain } from './navigation/nav-main';
+import { NavSecondary } from './navigation/nav-secondary';
+import { NavUser } from './navigation/nav-user';
 
 const data = {
   navMain: [

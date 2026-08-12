@@ -22,7 +22,7 @@ export function LanguageSwitcher() {
   }
 
   return (
-    <div className='flex items-center  gap-2 text-sm '>
+    <div className='flex items-center gap-2 text-xs md:text-sm'>
       <button
         onClick={() => switchLocale('ro')}
         className={cn(

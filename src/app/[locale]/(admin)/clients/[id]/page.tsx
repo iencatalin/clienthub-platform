@@ -1,10 +1,10 @@
 import { prisma } from '@/lib/prisma';
-import { requireAuth } from '@/lib/auth-utils';
+import { requirePermission } from '@/lib/auth-utils';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import TicketStatusBadge from '@/components/ticket-status-badge';
-import TicketPriorityBadge from '@/components/ticket-priority-badge';
+import TicketStatusBadge from '@/components/ticket/ticket-status-badge';
+import TicketPriorityBadge from '@/components/ticket/ticket-priority-badge';
 import Link from 'next/link';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getTicketTitle } from '@/utils/get-ticket-title';
@@ -15,13 +15,7 @@ type Props = {
 
 export default async function ClientPage({ params }: Props) {
   const { id } = await params;
-  const session = await requireAuth();
-
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-  });
-
-  if (!orgUser) return <div>Organization not found</div>;
+  const { orgUser } = await requirePermission('clients:read');
 
   const contact = await prisma.contact.findFirst({
     where: {

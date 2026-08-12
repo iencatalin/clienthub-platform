@@ -1,25 +1,13 @@
-import TicketForm from '@/components/ticket-form';
+import TicketForm from '@/components/ticket/ticket-form';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { auth } from '@/lib/auth';
+import { requirePermission } from '@/lib/auth-utils';
 import { prisma } from '@/lib/prisma';
 import { Separator } from '@base-ui/react';
 import { Plus } from 'lucide-react';
-import { headers } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export default async function NewTickets() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) redirect('/sign-in');
-
-  const orgUser = await prisma.organizationUser.findFirst({
-    where: { userId: session.user.id },
-  });
-
-  if (!orgUser) redirect('/sign-in');
+  const { orgUser } = await requirePermission('tickets:create');
 
   const contacts = await prisma.contact.findMany({
     where: { organizationId: orgUser.organizationId },
