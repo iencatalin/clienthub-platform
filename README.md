@@ -16,6 +16,19 @@ The current focus is on building a solid, scalable architecture before integrati
 
 **[revelio-clienthub-platform.vercel.app](https://revelio-clienthub-platform.vercel.app)**
 
+### Try the Demo
+
+You can explore the application without creating an account.
+
+**Demo account:**
+
+- **Email:** `demo@revelio.dev`
+- **Password:** `Demo!1234`
+
+The demo account contains sample clients, tickets, conversations and team data so you can explore the main features of the platform.
+
+> **Note:** This is a shared demo environment. Please avoid adding personal or sensitive information.
+
 ---
 
 ## About
@@ -35,6 +48,7 @@ This is a portfolio project built to demonstrate full-stack development skills w
 - **Dashboard analytics** — Ticket stats and status overview
 - **Team management** — Invite members with roles (Owner, Admin, Agent)
 - **Organization settings** — Manage your workspace details
+- **Role-based permissions** — Access control based on organization roles
 - **Internationalization** — Romanian and English support
 - **Responsive design** — Works on desktop and mobile
 
@@ -51,3 +65,7 @@ This is a portfolio project built to demonstrate full-stack development skills w
 - **Recharts** — Data visualization
 - **Docker** — Local development database
 - **Vercel** — Deployment
+
+## License
+
+This project was created as a portfolio project.

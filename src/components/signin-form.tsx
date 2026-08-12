@@ -19,7 +19,10 @@ import { useState } from 'react';
 import { Spinner } from './ui/spinner';
 import Link from 'next/link';
 import { signInSchema, type SignInFormValues } from '@/lib/validators/sign-in';
-import { ArrowRight, EyeIcon, EyeOffIcon } from 'lucide-react';
+import { ArrowRight, EyeIcon, EyeOffIcon, Sparkles } from 'lucide-react';
+
+const DEMO_EMAIL = 'demo@revelio.dev';
+const DEMO_PASSWORD = 'Demo!1234';
 
 export default function SignInForm() {
   const router = useRouter();
@@ -52,8 +55,11 @@ export default function SignInForm() {
         },
       },
     );
+  };
 
-    setIsLoading(false);
+  const handleTryDemo = () => {
+    form.setValue('email', DEMO_EMAIL);
+    form.setValue('password', DEMO_PASSWORD);
   };
 
   return (
@@ -61,12 +67,35 @@ export default function SignInForm() {
       <h2 className='text-3xl font-bold'>
         Welcome back <span>👋</span>
       </h2>
+
       <p className='text-slate-700/90 text-sm tracking-wider'>
         Sign in to your workspace to continue
       </p>
+
+      <Button
+        type='button'
+        variant='outline'
+        className='w-full gap-2 border-blue-200 bg-blue-50/50 text-blue-700 hover:bg-blue-50'
+        onClick={handleTryDemo}
+        disabled={isLoading}
+      >
+        <Sparkles className='size-4' />
+        Try Demo
+      </Button>
+
+      <div className='relative py-1'>
+        <div className='absolute inset-0 flex items-center'>
+          <span className='w-full border-t border-slate-200' />
+        </div>
+
+        <div className='relative flex justify-center text-xs'>
+          <span>or sign in manually</span>
+        </div>
+      </div>
+
       <Form {...form}>
         <form
-          className='flex flex-col gap-6 pt-6'
+          className='flex flex-col gap-6 pt-2'
           onSubmit={form.handleSubmit(onSubmit)}
         >
           <FormField
@@ -77,32 +106,34 @@ export default function SignInForm() {
                 <FormLabel className='text-slate-700/90 text-sm'>
                   Email address
                 </FormLabel>
+
                 <FormControl>
                   <Input
                     type='email'
-                    className='bg-slate-100/80 ring-1 ring-slate-300/80 w-full'
+                    className='w-full bg-slate-100/80 ring-1 ring-slate-300/80'
                     placeholder='Enter your email address'
                     {...field}
                   />
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name='password'
             render={({ field }) => (
               <FormItem>
-                <div className='flex items-center justify-between'>
-                  <FormLabel className='text-slate-700/90 text-sm'>
-                    Password
-                  </FormLabel>
-                </div>
+                <FormLabel className='text-slate-700/90 text-sm'>
+                  Password
+                </FormLabel>
+
                 <FormControl>
                   <div className='relative'>
                     <Input
-                      className='bg-slate-100/80 ring-1 ring-slate-300/80 '
+                      className='bg-slate-100/80 pr-10 ring-1 ring-slate-300/80'
                       type={showPassword ? 'text' : 'password'}
                       placeholder='Enter your password'
                       {...field}
@@ -121,27 +152,31 @@ export default function SignInForm() {
                     </button>
                   </div>
                 </FormControl>
+
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <Button
             size='lg'
             type='submit'
-            className='cursor-pointer text-base bg-linear-to-r from-blue-600 to-purple-500 hover:bg-linear-to-r hover:from-blue-700 hover:to-purple-600 disabled:cursor-not-allowed disabled:opacity-50'
+            className='cursor-pointer bg-linear-to-r from-blue-600 to-purple-500 text-base hover:bg-linear-to-r hover:from-blue-700 hover:to-purple-600 disabled:cursor-not-allowed disabled:opacity-50'
             disabled={isLoading}
           >
             {isLoading ? <Spinner className='size-6' /> : 'Sign In'}
           </Button>
         </form>
       </Form>
-      <div className='flex justify-center items-center gap-2 text-sm text-slate-600'>
+
+      <div className='flex items-center justify-center gap-2 text-sm text-slate-600'>
         Don&#39;t have an account?
         <Link
           href='/sign-up'
-          className='flex items-center gap-2 text-blue-600 font-semibold'
+          className='flex items-center gap-2 font-semibold text-blue-600'
         >
-          Create one free <ArrowRight className='size-4' />
+          Create one free
+          <ArrowRight className='size-4' />
         </Link>
       </div>
     </div>
